@@ -1,0 +1,22 @@
+//Autor del proyecto: Estefanía Silva Molina
+
+
+Instalacion del Software:
+
+-Crear una base de datos con nombre calidad
+-entrar con la consola(CMD) al directorio y ejetucar los siguientes comandos:
+	Php artisan migrate:fresh --seed para realizar las migraciones y las semillas de datos
+	php artisan serve para ejecutar el sistema 	
+
+
+Datos de usuario para probar el sistema								
+	Usuario administrador : admin@hotmail.com
+	password: admin
+
+
+	Usuario Secretaria : secretaria@hotmail.com
+	password: secretaria
+
+
+	Usuario Cliente : cliente@hotmail.com
+	password: cliente
