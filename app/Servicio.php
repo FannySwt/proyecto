@@ -51,11 +51,4 @@ class Servicio extends Model
     	return $this->belongsToMany('App\MetodoPago');
     }
 
-
-    public function aumenta($id)
-    {
-        $se=servicio::find($id);
-        $se->Visitas=($se->Visitas+1);
-        $se->save();
-    }
 }

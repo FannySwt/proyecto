@@ -43,18 +43,19 @@ export default {
     logout() {
       var url = "/logout";
       axios
-        .post(url, {})
+        .post(url)
         .then(response => {
           console.log(response);
+          this.type = "guest";
+          this.$router.push({
+            path: "/",
+            name: "home",
+            query: { type: this.type }
+          });
         })
         .catch(error => {
           console.log(error);
         });
-      this.type = "guest";
-      this.$router.push({
-        path: "/",
-        query: { type: this.type }
-      });
     }
   }
 };

@@ -86,15 +86,15 @@
         class="hidden-sm-and-down"
       ></v-text-field>
       <v-spacer></v-spacer>
-      <v-btn icon large @click="redirect('home/users')">
+      <v-btn icon large v-on:click="$router.push({name:'homeUsers'})">
         <v-icon>add_circle</v-icon>
       </v-btn>Crea tu cuenta
-      <v-btn icon large @click="redirect('login')">
+      <v-btn icon large v-on:click="$router.push({name:'login'})">
         <v-avatar size="32px" tile>
           <v-icon>person</v-icon>
         </v-avatar>
       </v-btn>Ingresa
-      <v-btn icon large @click="redirect('home/ayuda')">
+      <v-btn icon large v-on:click="$router.push({name:'homeAyuda'})">
         <v-avatar size="32px" tile>
           <v-icon>person</v-icon>
         </v-avatar>
@@ -116,7 +116,7 @@ export default {
     dialog: false,
     drawer: null,
     items: [
-      { icon: "cake", text: "Servicios", link: "home/servicios" },
+      { icon: "cake", text: "Servicios", link: "/home/servicios" },
       { icon: "art_track", text: "Sobre Nosotros", link: "/home/about" }
     ]
   }),

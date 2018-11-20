@@ -59,6 +59,7 @@ export default {
             this.$emit("authenticated");
           })
           .catch(error => {
+            this.$emit("logout");
             console.log(error);
           });
       }

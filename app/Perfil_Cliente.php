@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Perfil_Cliente extends Model
 {
 
-    protected $fillable = ['reputacion_cliente','tipo_cliente','estado_cliente'];
+    protected $fillable = ['reputacion_cliente','tipo_cliente','estado_cliente','ventas_concretadas'];
 
 
     public function User()
     {
-    	return $this->belongTo('App\User');
+    	return $this->belongsTo('App\User');
     }
 
     protected $primaryKey="user_id";

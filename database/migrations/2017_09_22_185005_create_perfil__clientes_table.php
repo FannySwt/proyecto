@@ -16,9 +16,10 @@ class CreatePerfilClientesTable extends Migration
         Schema::create('perfil__clientes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->string('reputacion_cliente');
+            $table->integer('reputacion_cliente')->default(0);
             $table->string('estado_cliente');
-            $table->string('tipo_cliente');
+            $table->string('tipo_cliente')->default("nuevo");
+            $table->integer('ventas_concretadas')->default(0);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

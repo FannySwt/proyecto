@@ -79,8 +79,8 @@
         </v-layout>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="info"  @click="redirect('/home')">Cancelar</v-btn>
-          <v-btn color="error" @click.native="save">Guardar</v-btn>
+          <v-btn color="info"  @click="$router.push({name:'home'})">Cancelar</v-btn>
+          <v-btn color="error" @click.native="save">Registrar</v-btn>
         </v-card-actions>
       </v-container>
     </v-card>
@@ -89,7 +89,6 @@
 </template>
 
 <script>
-import Fecha from "./../../components/Fecha";
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -185,6 +184,7 @@ export default {
 
     save() {
       var url = "/hash";
+
       axios
         .post(url, {
           password: this.editedItem.password
@@ -276,9 +276,6 @@ export default {
           console.log(error);
         });
     }
-  },
-  components: {
-    Fecha
   }
 };
 </script>

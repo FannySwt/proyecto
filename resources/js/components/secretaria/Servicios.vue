@@ -35,9 +35,9 @@
       <div class="h5 ml-3">Disponible: {{servicio.fecha_publicacion_se}} - {{servicio.fecha_finalizacion_se}}</div>
       <v-spacer></v-spacer>
       <v-btn 
-      v-if="servicio.estado=='activo'" color="success">Activo</v-btn>
+      v-if="servicio.estado=='activo'" @click="actualizarServicio" color="success">Activo</v-btn>
       <v-btn 
-      v-else color="error">Inactivo</v-btn>
+      v-if="servicio.estado=='inactivo'" @click="actualizarServicio" color="error">Inactivo</v-btn>
     </v-layout>
 
     <v-card-actions class="h5 ml-1">
@@ -55,6 +55,11 @@
         hover
         size="18"
       ></v-rating>
+      <div class="layout row reverse fill-height mr-2">
+      {{servicio.visitas}}
+      <div class="ml-1"></div>
+      <v-icon>visibility</v-icon>
+      </div>
     </v-card-actions>
   </v-card>
 </template>
@@ -66,6 +71,43 @@ export default {
   }),
   props: {
     servicio: {}
+  },
+  methods: {
+    actualizarServicio() {
+      var url = "/servicios/" + this.servicio.id;
+      var est;
+      if (this.servicio.estado == "activo") {
+        est = "inactivo";
+      } else {
+        est = "activo";
+      }
+      axios
+        .put(url, {
+          nombre_servicio: this.servicio.nombre_servicio,
+          descripcion_servicio: this.servicio.descripcion_servicio,
+          estado: est,
+          fecha_publicacion_se: this.servicio.fecha_publicacion_se,
+          fecha_finalizacion_se: this.servicio.fecha_finalizacion_se,
+          tags_servicio: this.servicio.tags_servicio,
+          visitas: this.servicio.visitas,
+          creador: this.servicio.creador,
+          tipo_pago: this.servicio.tipo_pago,
+          precio_servicio: this.servicio.precio_servicio,
+          reputacion: this.servicio.reputacion,
+          ubicacion: this.servicio.ubicacion
+        })
+        .then(response => {
+          if (this.servicio.estado == "activo") {
+            this.servicio.estado = "inactivo";
+          } else {
+            this.servicio.estado = "activo";
+          }
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 };
 </script>

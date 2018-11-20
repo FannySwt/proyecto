@@ -30,7 +30,7 @@ export default {
   data: () => ({
     rowsPerPageItems: [3, 6, 9],
     pagination: {
-      rowsPerPage: 3
+      rowsPerPage: 6
     }
   }),
   methods: {

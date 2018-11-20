@@ -3,26 +3,37 @@ import Router from "vue-router";
 import Login from "./views/Login.vue";
 import Home from "./views/Home.vue";
 import HomeIndex from "./views/home/Index.vue";
-import Admin from "./views/Admin.vue";
-import AdminIndex from "./views/admin/Index.vue";
+
 import HomeAbout from "./views/home/About.vue";
 import HomeUsers from "./views/home/Users.vue";
 import HomeServicios from "./views/home/Servicios.vue";
 import HomeAyuda from "./views/home/Ayuda.vue";
+
+import Admin from "./views/Admin.vue";
+import AdminIndex from "./views/admin/Index.vue";
 import AdminUsers from "./views/admin/Users.vue";
 import AdminCategorias from "./views/admin/Categorias.vue";
 import AdminMetodosPagos from "./views/admin/MetodosPagos.vue";
+import AdminServicios from "./views/cliente/Servicios.vue";
+import AdminVerServicios from "./views/cliente/VerServicios";
+import AdminContratar from "./components/publico/Contratar.vue";
+
 import Secretaria from "./views/secretaria.vue";
 import SecretariaIndex from "./views/secretaria/Index.vue";
 import SecretariaUsers from "./views/secretaria/Users.vue";
 import SecretariaValidar from "./views/secretaria/Validar.vue";
-
 import SecretariaServicios from "./views/secretaria/Servicios.vue";
+import SecretariaContratar from "./components/publico/Contratar.vue";
+
 import Cliente from "./views/cliente.vue";
 import ClienteIndex from "./views/cliente/Index.vue";
 import ClienteServicios from "./views/cliente/Servicios.vue";
 import ClienteVerServicios from "./views/cliente/VerServicios.vue";
 import ClienteContratar from "./components/publico/Contratar.vue";
+import ClienteEncuesta from "./components/publico/Encuenta.vue";
+import ClienteServiciosContratados from "./views/cliente/ServiciosContratados.vue";
+
+import ServicioId from "./components/publico/Servicios.vue";
 
 Vue.use(Router);
 
@@ -90,6 +101,23 @@ export default new Router({
                     path: "metodosPagos",
                     name: "adminMetodosPagos",
                     component: AdminMetodosPagos
+                },
+                {
+                    path: "servicios",
+                    name: "adminServicios",
+                    component: AdminServicios
+                },
+                {
+                    path: "verServicios",
+                    name: "adminVerServicios",
+                    component: AdminVerServicios
+                },
+                ,
+                {
+                    path: "contratar/:servicio",
+                    name: "adminContratar",
+                    component: AdminContratar,
+                    props: true
                 }
             ]
         },
@@ -117,6 +145,12 @@ export default new Router({
                     path: "validar",
                     name: "secretariaValidar",
                     component: SecretariaValidar
+                },
+                {
+                    path: "contratar/:servicio",
+                    name: "secretariaContratar",
+                    component: SecretariaContratar,
+                    props: true
                 }
             ]
         },
@@ -140,9 +174,20 @@ export default new Router({
                     component: ClienteVerServicios
                 },
                 {
-                    path: "contratar",
+                    path: "contratar/:servicio",
                     name: "clienteContratar",
-                    component: ClienteContratar
+                    component: ClienteContratar,
+                    props: true
+                },
+                {
+                    path: "serviciosContratados",
+                    name: "clienteServiciosContratados",
+                    component: ClienteServiciosContratados
+                },
+                {
+                    path: "encuesta",
+                    name: "clienteEncuesta",
+                    component: ClienteEncuesta
                 }
             ]
         }

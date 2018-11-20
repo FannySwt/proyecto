@@ -14,7 +14,7 @@ class Perfil_SecretariaController extends Controller
      */
     public function index()
     {
-        //
+    
     }
 
     /**

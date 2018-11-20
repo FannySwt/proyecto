@@ -6,6 +6,7 @@ use App\User;
 use App\Servicio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ServicioController extends Controller
 {
@@ -16,7 +17,7 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        return Servicio::all();
+        return Servicio::orderBy('visitas','desc')->get();   
     }
 
     /**
@@ -24,15 +25,58 @@ class ServicioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function serviciosActivos(){
+        return Servicio::where('estado', '=', 'activo')->orderBy('visitas','desc')->get();
+        
+    }
+    
     public function create()
     {
         //
+    }
+
+    public function serviciosContratados()
+    {   
+        $user = Auth::user();
+        $servicios = $user->ServiciosContratados;
+
+        foreach($servicios as $servicio){
+            $servicio->pivot;
+        }
+
+        return $servicios;
+        
+        /*
+        return $servicios  = DB::table('servicio_user')
+        ->join('users', 'servicio_user.user_id', '=', 'users.id')
+        ->select(
+            'servicio_user.fecha_contratacion',
+            'servicio_user.fecha_fin_contratacion',
+            'servicio_user.descuento_tipo_cliente',
+            'servicio_user.tipo_pago',
+            'servicio_user.numero_tarjeta',
+            'servicio_user.numero_cuota',
+            'servicio_user.valor_cuota')->get();
+*/
     }
 
     public function serviciosUsuario()
     {
         $user = Auth::user();
         return $user->Servicios;
+    }
+
+    public function guardarContrato(Request $request, Servicio $servicio, User $usuario){
+        $usuario->ServiciosContratados()->save($servicio,
+            ['fecha_contratacion' => $request->fecha_contratacion,
+            'fecha_fin_contratacion' => $request->fecha_fin_contratacion,
+            'descuento_tipo_cliente' => $request->descuento_tipo_cliente,
+            'tipo_pago' => $request->tipo_pago,
+            'numero_tarjeta' => $request->numero_tarjeta,
+            'numero_cuota' => $request->numero_cuota,
+            'valor_cuota' => $request->valor_cuota
+            ]
+        );
     }
 
     /**
@@ -56,7 +100,7 @@ class ServicioController extends Controller
      */
     public function show(Servicio $servicio)
     {
-        //
+        return Servicio::find($servicio);
     }
 
     /**

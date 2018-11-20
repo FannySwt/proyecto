@@ -68,9 +68,6 @@
           </v-icon>
         </td>
       </template>
-      <template slot="no-data">
-        <v-btn color="primary" @click="initialize">Reiniciar</v-btn>
-      </template>
     </v-data-table>
   </div>
 </template>

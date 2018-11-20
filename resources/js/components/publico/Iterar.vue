@@ -13,7 +13,9 @@
         slot-scope="props"
         xs4
       >
-        <servicios v-bind:servicio="props.item">
+        <servicios v-bind:servicio="props.item"
+        v-on:recargar="cargarServicios" >
+          
         </servicios>
       </v-flex>
     </v-data-iterator>
@@ -27,7 +29,7 @@ export default {
   data: () => ({
     rowsPerPageItems: [3, 6, 9],
     pagination: {
-      rowsPerPage: 3
+      rowsPerPage: 6
     },
     servicios: []
   }),
@@ -36,7 +38,7 @@ export default {
   },
   methods: {
     cargarServicios() {
-      var url = "/servicios";
+      var url = "/serviciosActivos";
       axios
         .get(url)
         .then(response => {

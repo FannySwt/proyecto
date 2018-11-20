@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
 
         $cliente = new Perfil_Cliente(
             [
-                'reputacion_cliente' => 'Bueno',
+                'reputacion_cliente' => 0,
                 'estado_cliente' => 'Activo',
                 'tipo_cliente' => 'basico',
             ]
@@ -108,7 +108,7 @@ class DatabaseSeeder extends Seeder
                 'visitas' => 150,
                 'creador' => 'Andrea Molina',
                 'ubicacion' => 'cuarta region ',
-                'reputacion' => '0',
+                'reputacion' => 0,
             ]
         );
 //Usuario crea serv
@@ -160,7 +160,7 @@ class DatabaseSeeder extends Seeder
 
         $cliente = new Perfil_Cliente(
             [
-                'reputacion_cliente' => 'Bueno',
+                'reputacion_cliente' => 0,
                 'estado_cliente' => 'Activo',
                 'tipo_cliente' => 'basico',
             ]

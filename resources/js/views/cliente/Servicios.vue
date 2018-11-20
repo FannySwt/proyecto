@@ -27,9 +27,6 @@
                 <v-flex xs12>
                   <v-text-field v-model="editedItem.descripcion_servicio" label="Descripción"></v-text-field>
                 </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.estado" label="Estado"></v-text-field>
-                </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-menu
                     :close-on-content-click="false"
@@ -83,13 +80,11 @@
                    label="Metodo de Pago"
                    v-model="tipo_pago_elegido"
                    v-on:change="cambioTipoPago"
+                   return-object
                   ></v-select>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field v-model="editedItem.precio_servicio" label="Precio"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.visitas" label="Visitas"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field v-model="editedItem.creador" label="Creador del servicio"></v-text-field>
@@ -97,8 +92,8 @@
                 <v-flex xs12>
                   <v-text-field v-model="editedItem.ubicacion" label="Ubicación"></v-text-field>
                 </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.reputacion" label="Reputación"></v-text-field>
+                <v-flex xs12 v-if="editar">
+                  <v-text-field v-model="editedItem.visitas" label="visitas"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -114,7 +109,8 @@
     <Iterar
     :servicios="servicios"
       v-on:editar="editItem" 
-      v-on:eliminar="deleteItem">
+      v-on:eliminar="deleteItem"
+      >
     >
     </Iterar>
   </v-container>
@@ -123,7 +119,6 @@
 
 <script>
 import Iterar from "./../../components/cliente/Iterar";
-import Fecha from "./../../components/Fecha";
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -258,15 +253,15 @@ export default {
         .post(url, {
           nombre_servicio: this.editedItem.nombre_servicio,
           descripcion_servicio: this.editedItem.descripcion_servicio,
-          estado: this.editedItem.estado,
+          estado: "inactivo",
           fecha_publicacion_se: this.editedItem.fecha_publicacion_se,
           fecha_finalizacion_se: this.editedItem.fecha_finalizacion_se,
           tags_servicio: this.editedItem.tags_servicio,
-          visitas: this.editedItem.visitas,
+          visitas: 0,
           creador: this.editedItem.creador,
-          tipo_pago: this.tipo_pago_elegido,
+          tipo_pago: this.tipo_pago_elegido.tipo_pago,
           precio_servicio: this.editedItem.precio_servicio,
-          reputacion: this.editedItem.reputacion,
+          reputacion: 0,
           ubicacion: this.editedItem.ubicacion
         })
         .then(response => {
@@ -283,15 +278,15 @@ export default {
         .put(url, {
           nombre_servicio: this.editedItem.nombre_servicio,
           descripcion_servicio: this.editedItem.descripcion_servicio,
-          estado: this.editedItem.estado,
+          estado: "inactivo",
           fecha_publicacion_se: this.editedItem.fecha_publicacion_se,
           fecha_finalizacion_se: this.editedItem.fecha_finalizacion_se,
           tags_servicio: this.editedItem.tags_servicio,
-          visitas: this.editedItem.visitas,
+          visitas: 0,
           creador: this.editedItem.creador,
           tipo_pago: this.tipo_pago_elegido,
           precio_servicio: this.editedItem.precio_servicio,
-          reputacion: this.editedItem.reputacion,
+          reputacion: this.editedItem.visitas,
           ubicacion: this.editedItem.ubicacion
         })
         .then(response => {
@@ -332,8 +327,7 @@ export default {
     }
   },
   components: {
-    Iterar,
-    Fecha
+    Iterar
   }
 };
 </script>

@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Perfil_Secretaria;
 use App\Perfil_Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -17,7 +20,65 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        $usuarios = User::all();
+
+
+        foreach($usuarios as $usuario){
+            if($usuario->tipo_usuario == 'cliente'){
+                $usuario->Perfil_Cliente;
+            }
+            else if($usuario->tipo_usuario == 'secretaria'){
+                $usuario->Perfil_Secretaria;
+            }
+        }
+
+        return $usuarios;
+        /*
+                $clientes = Perfil_Cliente::all();
+        $secretarias = Perfil_Secretaria::all();
+
+        $usuario = [];
+        foreach($secretarias as $secretaria){
+            $secretaria->User;
+            $usuarios[] = $secretaria;
+        }
+
+        return $usuarios;
+*/
+
+        /*$clientes  = DB::table('users')
+        ->join('perfil__clientes', 'users.id', '=', 'perfil__clientes.user_id')
+        ->select(
+            'users.rut_usuario',
+            'users.nombre_usuario',
+            'users.email',
+            'users.password',
+            'users.alias',
+            'users.fecha_nac',
+            'users.domicilio_usuario',
+            'users.telefono',
+            'users.tipo_usuario',
+            'perfil__clientes.reputacion_cliente',
+            'perfil__clientes.estado_cliente',
+            'perfil__clientes.tipo_cliente')->get();
+        
+        $secretarias = DB::table('users')
+        ->join('perfil__secretarias', 'users.id', '=', 'perfil__secretarias.user_id')
+        ->select(
+            'users.rut_usuario',
+            'users.nombre_usuario',
+            'users.email',
+            'users.password',
+            'users.alias',
+            'users.fecha_nac',
+            'users.domicilio_usuario',
+            'users.telefono',
+            'users.tipo_usuario',
+            'perfil__secretarias.fecha_contratacion')->get();
+
+        $usuarios = ['clientes' =>$clientes, 'secretarias' => $secretarias];
+
+        return $clientes;*/
     }
 
     /**
@@ -113,5 +174,21 @@ class UserController extends Controller
 
     public function hash(Request $request){
         return Hash::make($request->password);
+    }
+
+         public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        return json_encode(Auth::attempt($credentials));
+            // Authentication passed...
+    
+    }
+
+     public function logout(Request $request)
+    {
+        return Auth::logout();
+            // Authentication passed...
+    
     }
 }

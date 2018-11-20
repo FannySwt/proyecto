@@ -40,12 +40,13 @@
       v-model="dialog"
       width="500"
     >
-      <v-btn v-on:click="contador += 1 " 
+      <v-btn 
+        @click="actualizarServicio"
         color="info"
         slot="activator"
       >
         Ver
-      </v-btn>
+      </v-btn> 
       <v-card
     v-if="servicio.estado == 'activo'"
     class="mx-auto elevation-20"
@@ -84,7 +85,12 @@
 
       <!--
       <v-btn v-if="!auth" color="info" v-on:click="registro">Contratar</v-btn>-->
-      <v-btn  color="info" v-on:click="$router.push({name:'clienteContratar'})">Contratar</v-btn>
+    
+      <v-btn  color="info" v-if="usuario.tipo_usuario=='secretaria'"  v-on:click="$router.push({name:'secretariaContratar', params: {servicio}})">Contratar</v-btn>
+      <v-btn  color="info" v-if="usuario.tipo_usuario=='cliente'"  v-on:click="$router.push({name:'clienteContratar', params: {servicio}})">Contratar</v-btn>
+      <v-btn  color="info" v-if="usuario.tipo_usuario=='admin'"  v-on:click="$router.push({name:'adminContratar', params: {servicio}})">Contratar</v-btn>
+      <v-btn  v-if="!usuario.tipo_usuario" color="info" v-on:click="registro">Contratar</v-btn>
+      
       
     </v-layout>
 
@@ -103,7 +109,7 @@
         size="18"
       ></v-rating>
       <div class="layout row reverse fill-height mr-2">
-      {{contador}}
+      {{servicio.visitas}}
       <div class="ml-1"></div>
       <v-icon>visibility</v-icon>
       </div>
@@ -112,7 +118,10 @@
       
     </v-dialog>
   </div>
-      <v-btn color="info" v-on:click="$router.push({name:'clienteContratar'})">Contratar</v-btn>
+      <v-btn  color="info" v-if="usuario.tipo_usuario=='secretaria'"  v-on:click="$router.push({name:'secretariaContratar', params: {servicio}})">Contratar</v-btn>
+      <v-btn  color="info" v-if="usuario.tipo_usuario=='cliente'"  v-on:click="$router.push({name:'clienteContratar', params: {servicio}})">Contratar</v-btn>
+      <v-btn  color="info" v-if="usuario.tipo_usuario=='admin'"  v-on:click="$router.push({name:'adminContratar', params: {servicio}})">Contratar</v-btn>
+      <v-btn  v-if="!usuario.tipo_usuario" color="info" v-on:click="registro">Contratar</v-btn>
       
     </v-layout>
 
@@ -132,22 +141,29 @@
         size="18"
       ></v-rating>
       <div class="layout row reverse fill-height mr-2">
-      {{contador}}
+      {{servicio.visitas}}
       <div class="ml-1"></div>
       <v-icon>visibility</v-icon>
       </div>
     </v-card-actions>
-  </v-card>
+  </v-card> 
 </template>
+
+
+
 
 <script>
 import Iterar from "./../../components/publico/Iterar";
 import Servicios from "./../../components/publico/Servicios";
 export default {
+  created() {
+    this.auth();
+  },
   data: () => ({
-    contador: 0,
     rating: 4.3,
-    dialog: false
+    dialog: false,
+    servicios: [],
+    usuario: {}
   }),
   props: {
     servicio: {}
@@ -156,16 +172,45 @@ export default {
     Servicios,
     Iterar
   },
-  computed: {
+  methods: {
+    redirect(link) {
+      this.$router.push(link);
+    },
+    registro: function(event) {
+      alert("Primero debes Iniciar Sesión");
+    },
+    actualizarServicio() {
+      var url = "/servicios/" + this.servicio.id;
+      axios
+        .put(url, {
+          nombre_servicio: this.servicio.nombre_servicio,
+          descripcion_servicio: this.servicio.descripcion_servicio,
+          estado: this.servicio.estado,
+          fecha_publicacion_se: this.servicio.fecha_publicacion_se,
+          fecha_finalizacion_se: this.servicio.fecha_finalizacion_se,
+          tags_servicio: this.servicio.tags_servicio,
+          visitas: this.servicio.visitas + 1,
+          creador: this.servicio.creador,
+          tipo_pago: this.servicio.tipo_pago,
+          precio_servicio: this.servicio.precio_servicio,
+          reputacion: this.servicio.reputacion,
+          ubicacion: this.servicio.ubicacion
+        })
+        .then(response => {
+          this.servicio.visitas++;
+          this.$emit("recargar");
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     auth() {
       var url = "/auth";
       axios
         .post(url)
         .then(response => {
-          if (response.data != null) {
-            return true;
-          }
-          return false;
+          this.usuario = response.data;
           console.log(response);
         })
         .catch(error => {
@@ -173,13 +218,20 @@ export default {
         });
     }
   },
-  methods: {
-    redirect(link) {
-      this.$router.push(link);
-    },
-    registro: function(event) {
-      alert("Primero debes Iniciar Sesión");
-    }
+  bool_auth() {
+    var url = "/auth";
+    axios
+      .post(url)
+      .then(response => {
+        if (response.data != null) {
+          return true;
+        }
+        return false;
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 </script>

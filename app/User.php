@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'rut_usuario', 'nombre_usuario', 'email','password' ,'alias','fecha_nac','domicilio_usuario','telefono','tipo_usuario'];
+        'rut_usuario','nombre_usuario', 'email','password' ,'alias','fecha_nac','domicilio_usuario','telefono','tipo_usuario'];
 
 
 
@@ -47,7 +47,14 @@ class User extends Authenticatable
     //Un usuario Contrata muchos servicios
     public function ServiciosContratados()
     {
-        return $this->belongsToMany('App\Servicio');
+        return $this->belongsToMany('App\Servicio')->withPivot(
+            'fecha_contratacion',
+            'fecha_fin_contratacion',
+            'descuento_tipo_cliente',
+            'tipo_pago',
+            'numero_tarjeta',
+            'numero_cuota',
+            'valor_cuota');
     }
 
 }

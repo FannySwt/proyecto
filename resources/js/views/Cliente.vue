@@ -180,11 +180,16 @@ export default {
     dialog: false,
     drawer: null,
     items: [
-      { icon: "cake", text: "Servicios", link: "/cliente/servicios" },
+      { icon: "cake", text: "Mis Servicios", link: "/cliente/servicios" },
       {
         icon: "visibility",
         text: "Contratar Servicios",
         link: "/cliente/verServicios"
+      },
+      {
+        icon: "visibility",
+        text: "Mis Servicios Contratados",
+        link: "/cliente/serviciosContratados"
       }
     ]
   }),

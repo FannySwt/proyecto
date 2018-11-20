@@ -14,7 +14,7 @@ class Perfil_ClienteController extends Controller
      */
     public function index()
     {
-        //
+      
     }
 
     /**

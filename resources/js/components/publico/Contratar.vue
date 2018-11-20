@@ -1,7 +1,5 @@
 <template>
   <div>
-    <v-btn slot="activator">
-    </v-btn>
     <v-card>
       <v-card-title
         class="grey lighten-4 py-4 title">
@@ -11,33 +9,96 @@
           <v-layout row wrap>
             <v-flex xs12 align-center justify-space-between>
               <v-layout align-center>
-                <v-avatar size="40px" class="mr-3">
-                  <img
-                    src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
-                    alt=""
+               <v-menu
+                    :close-on-content-click="false"
+                    v-model="menu"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
                   >
-                </v-avatar>
-                <v-text-field v-model="editedItem.fecha_contratacion" label="Fecha de Contratación"></v-text-field>
+                    <v-text-field
+                      slot="activator"
+                      v-model="editedItem.fecha_contratacion"
+                      label="Fecha de inicio del contrato"
+                      prepend-icon="event"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker v-model="editedItem.fecha_contratacion" @input="menu = false"></v-date-picker>
+                  </v-menu>
               </v-layout>
             </v-flex>
+            <v-flex xs12 align-center justify-space-between>
+              <v-layout align-center>
+               <v-menu
+                    :close-on-content-click="false"
+                    v-model="menu2"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      v-model="editedItem.fecha_fin_contratacion"
+                      label="Fecha final del contrato"
+                      prepend-icon="event"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker v-model="editedItem.fecha_fin_contratacion" @input="menu2 = false"></v-date-picker>
+                  </v-menu>
+              </v-layout>
+            </v-flex>"
             <v-flex xs6>
-              <v-text-field v-model="editedItem.descuento_tipo_cliente" label="Descuento Tipo de Cliente" prepend-icon="dialpad"></v-text-field>
+              <v-input
+               v-model="editedItem.descuento_tipo_cliente" prepend-icon="dialpad">
+               Descuento Tipo de Cliente"
+               {{descuento_tipo_cliente}}
+               </v-input><v-divider class="ml-4"></v-divider>
             </v-flex>
             <v-flex xs12>
-              <v-text-field v-model="editedItem.tipo_pago" label="Tipo de Pago" prepend-icon="mail"></v-text-field>
+              <v-select
+                   :items="tipo_pago"
+                   item-text="tipo_pago"
+                   item-value="tipo_pago"
+                   label="Tipo de Pago"
+                   v-model="tipo_pago_elegido"
+                   prepend-icon="mail"
+                   return-object
+                   readonly
+              ></v-select>
             </v-flex>
             <v-flex xs12>
               <v-text-field v-model="editedItem.numero_tarjeta" label="Numero de Tarjeta" prepend-icon="dialpad"></v-text-field>
             </v-flex> 
             <v-flex xs12>
-              <v-text-field v-model="editedItem.numero_cuota" label="Numero de Cuotas" prepend-icon="phone" mask="phone"></v-text-field>
+              <v-select
+                   :items="numero_cuota"
+                   item-text="numero_cuota"
+                   item-value="numero_cuota"
+                   v-model="cuotas_elegidas"
+                   label="Número de Cuotas"
+                   prepend-icon="phone"
+                   return-object
+              ></v-select>
             </v-flex>
+            <v-flex xs12>
+              <h3>Total: {{servicio.precio_servicio}}
+                <div> {{cuotas_elegidas}} Cuotas de {{valorCuota}} </div>
+                </h3>
+            </v-flex> 
         </v-layout>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="info"  @click="redirect('/home')">Cancelar</v-btn>
+          <v-btn color="info"  @click="$router.push({name:'home'})">Cancelar</v-btn>
           <v-btn color="error" @click.native="save">Contratar Servicio</v-btn>
         </v-card-actions>
+
+        <servicios></servicios>
       </v-container>
     </v-card>
 
@@ -45,64 +106,68 @@
 </template>
 
 <script>
-import Fecha from "./../../components/Fecha";
+import Servicios from "./../../components/publico/Servicios";
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
     menu: false,
     modal: false,
     menu2: false,
-    tipo_usuario: ["cliente"],
-    tipo_usuario_elegido: "",
+    cuotas_elegidas: "",
+    tipo_pago: [],
+    numero_cuota: [],
+    tipo_pago_elegido: "",
     dialog: false,
+    usuario: {},
     headers: [
-      { text: "Rut", align: "left", value: "rut_usuario" },
-      { text: "Nombre", value: "nombre_usuario" },
-      { text: "Email", value: "email" },
-      { text: "Telefono", value: "telefono" },
-      { text: "Alias", value: "alias" },
-      { text: "Tipo de Usuario", value: "tipo_usuario" },
+      {
+        text: "Fecha inicial del contrato",
+        align: "left",
+        value: "fecha_contratacion"
+      },
+      { text: "Fecha final del contrato", value: "fecha_fin_contratacion" },
+      { text: "Descuento de cliente", value: "descuento_tipo_cliente" },
+      { text: "Tipo de Pago", value: "tipo_pago" },
+      { text: "Número de Tarjeta", value: "numero_tarjeta" },
+      { text: "Número de Cuotas", value: "numero_cuota" },
+      { text: "Valor de las Cuotas", value: "valor_cuota" },
       { text: "Actions", value: "name", sortable: false }
     ],
     usuarios: [],
     editedIndex: -1,
     editedItem: {
       id: 0,
-      rut_usuario: "",
-      nombre_usuario: "",
-      email: "",
-      password: "",
-      alias: "",
-      fecha_nac: "",
-      domicilio_usuario: "",
-      telefono: "",
-      tipo_usuario: "",
       fecha_contratacion: "",
-      reputacion_cliente: "",
-      estado_cliente: "",
-      tipo_cliente: ""
+      fecha_fin_contratacion: "",
+      descuento_tipo_cliente: "normal",
+      tipo_pago: "",
+      numero_tarjeta: "",
+      numero_cuota: "",
+      valor_cuota: ""
     },
     defaultItem: {
       id: 0,
-      rut_usuario: "",
-      nombre_usuario: "",
-      email: "",
-      password: "",
-      alias: "",
-      fecha_nac: "",
-      domicilio_usuario: "",
-      telefono: "",
-      tipo_usuario: "",
       fecha_contratacion: "",
-      reputacion_cliente: "",
-      estado_cliente: "",
-      tipo_cliente: ""
+      fecha_fin_contratacion: "",
+      descuento_tipo_cliente: "normal",
+      tipo_pago: "",
+      numero_tarjeta: "",
+      numero_cuota: "",
+      valor_cuota: ""
     }
   }),
 
   watch: {
     dialog(val) {
       val || this.close();
+    },
+    tipo_pago() {
+      this.cargar();
+    },
+    concreta(ventas_concretadas) {
+      if (this.ventas_concretadas >= 100) {
+        return (this.tipo_cliente = "Gold");
+      }
     }
   },
 
@@ -112,23 +177,12 @@ export default {
 
   methods: {
     initialize() {
-      this.cargarUsuarios();
+      this.cargarUsuarioServicio();
+      this.cargarMetodosPagos();
+      this.auth();
     },
     redirect(link) {
       this.$router.push(link);
-    },
-
-    editItem(item) {
-      this.editedIndex = this.usuarios.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-
-    deleteItem(item) {
-      const id = item.id;
-      confirm("Estas seguro de querer eliminar este usuario?") &&
-        this.eliminarUsuario(id);
-      this.cargarUsuarios();
     },
 
     close() {
@@ -138,29 +192,21 @@ export default {
         this.editedIndex = -1;
       }, 300);
     },
-
-    save() {
-      var url = "/hash";
-      axios
-        .post(url, {
-          password: this.editedItem.password
-        })
-        .then(response => {
-          this.editedItem.password = response.data;
-          if (this.editedIndex > -1) {
-            this.actualizarUsuario();
-          } else {
-            this.guardarUsuario();
-          }
-          this.cargarUsuarios();
-          this.close();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    cargar() {
+      this.tipo_pago_elegido = this.servicio.tipo_pago;
+      const pago = this.tipo_pago.find(
+        item => item.tipo_pago == this.tipo_pago_elegido
+      );
+      this.numero_cuota = pago.cuotas;
+      console.log("wut", pago);
     },
-    cargarUsuarios() {
-      var url = "/usuarios";
+    save() {
+      this.guardarUsuarioServicio();
+      this.close();
+      this.$router.push({ name: "clienteServiciosContratados" });
+    },
+    cargarUsuarioServicio() {
+      var url = "/serviciosUsuario";
       axios
         .get(url)
         .then(response => {
@@ -171,23 +217,17 @@ export default {
           console.log(error);
         });
     },
-    guardarUsuario() {
-      var url = "/usuarios";
+    guardarUsuarioServicio() {
+      var url = "/serviciosUsuario/" + this.servicio.id + "/" + this.usuario.id;
       axios
         .post(url, {
-          rut_usuario: this.editedItem.rut_usuario,
-          nombre_usuario: this.editedItem.nombre_usuario,
-          email: this.editedItem.email,
-          password: this.editedItem.password,
-          alias: this.editedItem.alias,
-          fecha_nac: this.editedItem.fecha_nac,
-          domicilio_usuario: this.editedItem.domicilio_usuario,
-          telefono: this.editedItem.telefono,
-          tipo_usuario: this.tipo_usuario_elegido,
           fecha_contratacion: this.editedItem.fecha_contratacion,
-          reputacion_cliente: this.editedItem.reputacion_cliente,
-          estado_cliente: this.editedItem.estado_cliente,
-          tipo_cliente: this.editedItem.tipo_cliente
+          fecha_fin_contratacion: this.editedItem.fecha_fin_contratacion,
+          descuento_tipo_cliente: this.editedItem.descuento_tipo_cliente,
+          tipo_pago: this.tipo_pago_elegido,
+          numero_tarjeta: this.editedItem.numero_tarjeta,
+          numero_cuota: this.cuotas_elegidas,
+          valor_cuota: this.valorCuota
         })
         .then(response => {
           console.log(response);
@@ -196,36 +236,28 @@ export default {
           console.log(error);
         });
     },
-    actualizarUsuario() {
-      var url = "/usuarios/" + this.editedItem.id;
+    cargarMetodosPagos() {
+      var url = "/metodosPagos";
       axios
-        .put(url, {
-          rut_usuario: this.editedItem.rut_usuario,
-          nombre_usuario: this.editedItem.nombre_usuario,
-          email: this.editedItem.email,
-          password: this.editedItem.password,
-          alias: this.editedItem.alias,
-          fecha_nac: this.editedItem.fecha_nac,
-          domicilio_usuario: this.editedItem.domicilio_usuario,
-          telefono: this.editedItem.telefono,
-          tipo_usuario: this.tipo_usuario_elegido,
-          fecha_contratacion: this.editedItem.fecha_contratacion,
-          reputacion_cliente: this.editedItem.reputacion_cliente,
-          estado_cliente: this.editedItem.estado_cliente,
-          tipo_cliente: this.editedItem.tipo_cliente
-        })
+        .get(url)
         .then(response => {
+          this.tipo_pago = response.data;
           console.log(response);
         })
         .catch(error => {
           console.log(error);
         });
     },
-    eliminarUsuario(id) {
-      var url = "/usuarios/" + id;
+    cambioTipoPago() {
+      console.log(this.tipo_pago_elegido);
+      this.numero_cuota = this.tipo_pago_elegido.cuotas;
+    },
+    auth() {
+      var url = "/auth";
       axios
-        .delete(url)
+        .post(url)
         .then(response => {
+          this.usuario = response.data;
           console.log(response);
         })
         .catch(error => {
@@ -233,8 +265,16 @@ export default {
         });
     }
   },
+  computed: {
+    valorCuota() {
+      return this.servicio.precio_servicio / this.cuotas_elegidas;
+    }
+  },
   components: {
-    Fecha
+    Servicios
+  },
+  props: {
+    servicio: {}
   }
 };
 </script>

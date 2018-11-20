@@ -82,13 +82,14 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    <Iterar></Iterar>
+    <Iterar
+    v-on:recargar="cargarServicios"></Iterar>
   </v-container>
 </template>
 
 
 <script>
-import Iterar from "./../../components/contratar/Iterar";
+import Iterar from "./../../components/publico/Iterar";
 export default {
   data: () => ({
     tipo_pago: [],
@@ -193,7 +194,7 @@ export default {
       this.close();
     },
     cargarServicios() {
-      var url = "/servicios";
+      var url = "/serviciosActivos";
       axios
         .get(url)
         .then(response => {

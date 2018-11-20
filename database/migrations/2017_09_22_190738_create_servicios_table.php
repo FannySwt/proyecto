@@ -24,10 +24,10 @@ class CreateServiciosTable extends Migration
             $table->string('tags_servicio');
             $table->string('tipo_pago');
             $table->integer('precio_servicio');
-            $table->integer('visitas');
+            $table->integer('visitas')->default(0);
             $table->string('creador');
             $table->string('ubicacion')->nullable();
-            $table->string('reputacion')->default(0);
+            $table->integer('reputacion')->default(0);
             $table->integer('categoria_id')->unsigned()->nullable();
             $table->timestamps();
 

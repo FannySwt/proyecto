@@ -47,7 +47,6 @@
                    label="Metodo de Pago"
                    v-model="tipo_pago_elegido"
                    v-on:change="cambioTipoPago"
-                   return-object
                   ></v-select>
                 </v-flex>
                 <v-flex xs12>
