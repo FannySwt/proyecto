@@ -54,7 +54,9 @@ class User extends Authenticatable
             'tipo_pago',
             'numero_tarjeta',
             'numero_cuota',
-            'valor_cuota');
+            'valor_cuota',
+            'me_gusta',
+            'evaluar');
     }
 
 }

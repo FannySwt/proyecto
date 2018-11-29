@@ -108,7 +108,8 @@ class DatabaseSeeder extends Seeder
                 'visitas' => 150,
                 'creador' => 'Andrea Molina',
                 'ubicacion' => 'cuarta region ',
-                'reputacion' => 0,
+                'me_gusta' => 0,
+                'no_me_gusta' => 0,
             ]
         );
 //Usuario crea serv

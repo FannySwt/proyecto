@@ -1,107 +1,110 @@
 <template>
   <div>
     <v-card>
-      <v-card-title
-        class="grey lighten-4 py-4 title">
+      <v-card-title class="grey lighten-4 py-4 title">
         <span class="headline">Contratar Servicio</span>
       </v-card-title>
       <v-container grid-list-sm class="pa-4">
-          <v-layout row wrap>
-            <v-flex xs12 align-center justify-space-between>
-              <v-layout align-center>
-               <v-menu
-                    :close-on-content-click="false"
-                    v-model="menu"
-                    :nudge-right="40"
-                    lazy
-                    transition="scale-transition"
-                    offset-y
-                    full-width
-                    min-width="290px"
-                  >
-                    <v-text-field
-                      slot="activator"
-                      v-model="editedItem.fecha_contratacion"
-                      label="Fecha de inicio del contrato"
-                      prepend-icon="event"
-                      readonly
-                    ></v-text-field>
-                    <v-date-picker v-model="editedItem.fecha_contratacion" @input="menu = false"></v-date-picker>
-                  </v-menu>
-              </v-layout>
-            </v-flex>
-            <v-flex xs12 align-center justify-space-between>
-              <v-layout align-center>
-               <v-menu
-                    :close-on-content-click="false"
-                    v-model="menu2"
-                    :nudge-right="40"
-                    lazy
-                    transition="scale-transition"
-                    offset-y
-                    full-width
-                    min-width="290px"
-                  >
-                    <v-text-field
-                      slot="activator"
-                      v-model="editedItem.fecha_fin_contratacion"
-                      label="Fecha final del contrato"
-                      prepend-icon="event"
-                      readonly
-                    ></v-text-field>
-                    <v-date-picker v-model="editedItem.fecha_fin_contratacion" @input="menu2 = false"></v-date-picker>
-                  </v-menu>
-              </v-layout>
-            </v-flex>"
-            <v-flex xs6>
-              <v-input
-               v-model="editedItem.descuento_tipo_cliente" prepend-icon="dialpad">
-               Descuento Tipo de Cliente"
-               {{descuento_tipo_cliente}}
-               </v-input><v-divider class="ml-4"></v-divider>
-            </v-flex>
-            <v-flex xs12>
-              <v-select
-                   :items="tipo_pago"
-                   item-text="tipo_pago"
-                   item-value="tipo_pago"
-                   label="Tipo de Pago"
-                   v-model="tipo_pago_elegido"
-                   prepend-icon="mail"
-                   return-object
-                   readonly
-              ></v-select>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field v-model="editedItem.numero_tarjeta" label="Numero de Tarjeta" prepend-icon="dialpad"></v-text-field>
-            </v-flex> 
-            <v-flex xs12>
-              <v-select
-                   :items="numero_cuota"
-                   item-text="numero_cuota"
-                   item-value="numero_cuota"
-                   v-model="cuotas_elegidas"
-                   label="Número de Cuotas"
-                   prepend-icon="phone"
-                   return-object
-              ></v-select>
-            </v-flex>
-            <v-flex xs12>
-              <h3>Total: {{servicio.precio_servicio}}
-                <div> {{cuotas_elegidas}} Cuotas de {{valorCuota}} </div>
-                </h3>
-            </v-flex> 
+        <v-layout row wrap>
+          <v-flex xs12 align-center justify-space-between>
+            <v-layout align-center>
+              <v-menu
+                :close-on-content-click="false"
+                v-model="menu"
+                :nudge-right="40"
+                lazy
+                transition="scale-transition"
+                offset-y
+                full-width
+                min-width="290px"
+              >
+                <v-text-field
+                  slot="activator"
+                  v-model="editedItem.fecha_contratacion"
+                  label="Fecha de inicio del contrato"
+                  prepend-icon="event"
+                  readonly
+                ></v-text-field>
+                <v-date-picker v-model="editedItem.fecha_contratacion" @input="menu = false"></v-date-picker>
+              </v-menu>
+            </v-layout>
+          </v-flex>
+          <v-flex xs12 align-center justify-space-between>
+            <v-layout align-center>
+              <v-menu
+                :close-on-content-click="false"
+                v-model="menu2"
+                :nudge-right="40"
+                lazy
+                transition="scale-transition"
+                offset-y
+                full-width
+                min-width="290px"
+              >
+                <v-text-field
+                  slot="activator"
+                  v-model="editedItem.fecha_fin_contratacion"
+                  label="Fecha final del contrato"
+                  prepend-icon="event"
+                  readonly
+                ></v-text-field>
+                <v-date-picker v-model="editedItem.fecha_fin_contratacion" @input="menu2 = false"></v-date-picker>
+              </v-menu>
+            </v-layout>
+          </v-flex>"
+          <v-flex xs6>
+            <v-input v-model="editedItem.descuento_tipo_cliente" prepend-icon="dialpad">
+              Descuento Tipo de Cliente"
+              {{descuento_tipo_cliente}}
+            </v-input>
+            <v-divider class="ml-4"></v-divider>
+          </v-flex>
+          <v-flex xs12>
+            <v-select
+              :items="tipo_pago"
+              item-text="tipo_pago"
+              item-value="tipo_pago"
+              label="Tipo de Pago"
+              v-model="tipo_pago_elegido"
+              prepend-icon="mail"
+              return-object
+              readonly
+            ></v-select>
+          </v-flex>
+          <v-flex xs12>
+            <v-text-field
+              v-model="editedItem.numero_tarjeta"
+              label="Numero de Tarjeta"
+              prepend-icon="dialpad"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12>
+            <v-select
+              :items="numero_cuota"
+              item-text="numero_cuota"
+              item-value="numero_cuota"
+              v-model="cuotas_elegidas"
+              label="Número de Cuotas"
+              prepend-icon="phone"
+              return-object
+            ></v-select>
+          </v-flex>
+          <v-flex xs12>
+            <h3>
+              Total: {{servicio.precio_servicio}}
+              <div>{{cuotas_elegidas}} Cuotas de {{valorCuota}}</div>
+            </h3>
+          </v-flex>
         </v-layout>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="info"  @click="$router.push({name:'home'})">Cancelar</v-btn>
+          <v-btn color="info" @click="$router.push({name:'home'})">Cancelar</v-btn>
           <v-btn color="error" @click.native="save">Contratar Servicio</v-btn>
         </v-card-actions>
 
         <servicios></servicios>
       </v-container>
     </v-card>
-
   </div>
 </template>
 
@@ -143,7 +146,8 @@ export default {
       tipo_pago: "",
       numero_tarjeta: "",
       numero_cuota: "",
-      valor_cuota: ""
+      valor_cuota: "",
+      me_gusta: ""
     },
     defaultItem: {
       id: 0,
@@ -153,7 +157,8 @@ export default {
       tipo_pago: "",
       numero_tarjeta: "",
       numero_cuota: "",
-      valor_cuota: ""
+      valor_cuota: "",
+      me_gusta: ""
     }
   }),
 
@@ -227,7 +232,8 @@ export default {
           tipo_pago: this.tipo_pago_elegido,
           numero_tarjeta: this.editedItem.numero_tarjeta,
           numero_cuota: this.cuotas_elegidas,
-          valor_cuota: this.valorCuota
+          valor_cuota: this.valorCuota,
+          me_gusta: this.editedItem.me_gusta
         })
         .then(response => {
           console.log(response);

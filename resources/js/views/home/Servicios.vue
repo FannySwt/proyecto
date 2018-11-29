@@ -1,87 +1,79 @@
 <template>
   <v-container fluid fill-height>
-    <v-btn
-      fab
-      bottom
-      right
-      color="pink"
-      dark
-      fixed
-      @click="dialog = !dialog"
-      
-    >
+    <v-btn fab bottom right color="pink" dark fixed @click="dialog = !dialog">
       <v-icon>add</v-icon>
     </v-btn>
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container grid-list-md>
-              
-              <v-layout wrap>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.nombre_servicio" label="Nombre"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.descripcion_servicio" label="Descripción"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.estado" label="Estado"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.fecha_publicacion_se" label="Fecha de publicacion"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.fecha_finalizacion_se" label="Fecha de finalización"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.tags_servicio" label="Tags"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-select
-                   :items="tipo_pago"
-                   item-text="tipo_pago"
-                   item-value="tipo_pago"
-                   label="Metodo de Pago"
-                   v-model="tipo_pago_elegido"
-                   v-on:change="cambioTipoPago"
-                   return-object
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.precio_servicio" label="Precio"></v-text-field>
-                </v-flex>
-                <v-flex xs12 
-                v-if="tipo_pago_elegido.tipo_pago == 'Tarjeta'">
-                  <v-select
-                  label ="Cantidad de Cuotas"
-                  :items="cuotas"
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.visitas" label="Visitas"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.creador" label="Creador del servicio"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.ubicacion" label="Ubicación"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.reputacion" label="Reputación"></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="close">Cancelar</v-btn>
-            <v-btn color="blue darken-1" flat @click="guardarServicio">Guardar</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">{{ formTitle }}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.nombre_servicio" label="Nombre"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.descripcion_servicio" label="Descripción"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.estado" label="Estado"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="editedItem.fecha_publicacion_se"
+                  label="Fecha de publicacion"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="editedItem.fecha_finalizacion_se"
+                  label="Fecha de finalización"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.tags_servicio" label="Tags"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-select
+                  :items="tipo_pago"
+                  item-text="tipo_pago"
+                  item-value="tipo_pago"
+                  label="Metodo de Pago"
+                  v-model="tipo_pago_elegido"
+                  v-on:change="cambioTipoPago"
+                  return-object
+                ></v-select>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.precio_servicio" label="Precio"></v-text-field>
+              </v-flex>
+              <v-flex xs12 v-if="tipo_pago_elegido.tipo_pago == 'Tarjeta'">
+                <v-select label="Cantidad de Cuotas" :items="cuotas"></v-select>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.visitas" label="Visitas"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.creador" label="Creador del servicio"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.ubicacion" label="Ubicación"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.reputacion" label="Reputación"></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click.native="close">Cancelar</v-btn>
+          <v-btn color="blue darken-1" flat @click="guardarServicio">Guardar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <Iterar></Iterar>
   </v-container>
 </template>
@@ -122,7 +114,8 @@ export default {
       visitas: "",
       creador: "",
       ubicacion: "",
-      reputacion: ""
+      me_gusta: "",
+      no_me_gusta: ""
     },
     defaultItem: {
       id: 0,
@@ -137,7 +130,8 @@ export default {
       visitas: "",
       creador: "",
       ubicacion: "",
-      reputacion: ""
+      me_gusta: "",
+      no_me_gusta: ""
     }
   }),
 
@@ -218,7 +212,8 @@ export default {
           creador: this.editedItem.creador,
           tipo_pago: this.editedItem.tipo_pago,
           precio_servicio: this.editedItem.precio_servicio,
-          reputacion: this.editedItem.reputacion,
+          me_gusta: this.editedItem.me_gusta,
+          no_me_gusta: this.editedItem.no_me_gusta,
           ubicacion: this.editedItem.ubicacion
         })
         .then(response => {
@@ -243,7 +238,8 @@ export default {
           creador: this.editedItem.creador,
           tipo_pago: this.editedItem.tipo_pago,
           precio_servicio: this.editedItem.precio_servicio,
-          reputacion: this.editedItem.reputacion,
+          me_gusta: this.editedItem.me_gusta,
+          no_me_gusta: this.editedItem.no_me_gusta,
           ubicacion: this.editedItem.ubicacion
         })
         .then(response => {

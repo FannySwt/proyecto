@@ -1,118 +1,102 @@
 <template>
   <v-container fluid fill-height>
-    <v-btn
-      fab
-      bottom
-      right
-      color="pink"
-      dark
-      fixed
-      @click="crear"
-      
-    >
+    <v-btn fab bottom right color="pink" dark fixed @click="crear">
       <v-icon>add</v-icon>
     </v-btn>
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container grid-list-md>
-              
-              <v-layout wrap>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.nombre_servicio" label="Nombre"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.descripcion_servicio" label="Descripción"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-menu
-                    :close-on-content-click="false"
-                    v-model="menu"
-                    :nudge-right="40"
-                    lazy
-                    transition="scale-transition"
-                    offset-y
-                    full-width
-                    min-width="290px"
-                  >
-                    <v-text-field
-                      slot="activator"
-                      v-model="editedItem.fecha_publicacion_se"
-                      label="Fecha de publicación"
-                      prepend-icon="event"
-                      readonly
-                    ></v-text-field>
-                    <v-date-picker v-model="editedItem.fecha_publicacion_se" @input="menu = false"></v-date-picker>
-                  </v-menu>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-menu
-                    :close-on-content-click="false"
-                    v-model="menu2"
-                    :nudge-right="40"
-                    lazy
-                    transition="scale-transition"
-                    offset-y
-                    full-width
-                    min-width="290px"
-                  >
-                    <v-text-field
-                      slot="activator"
-                      v-model="editedItem.fecha_finalizacion_se"
-                      label="Fecha de Finalización"
-                      prepend-icon="event"
-                      readonly
-                    ></v-text-field>
-                    <v-date-picker v-model="editedItem.fecha_finalizacion_se" @input="menu2 = false"></v-date-picker>
-                  </v-menu>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.tags_servicio" label="Tags"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-select
-                   :items="tipo_pago"
-                   item-text="tipo_pago"
-                   item-value="tipo_pago"
-                   label="Metodo de Pago"
-                   v-model="tipo_pago_elegido"
-                   v-on:change="cambioTipoPago"
-                   return-object
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.precio_servicio" label="Precio"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.creador" label="Creador del servicio"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.ubicacion" label="Ubicación"></v-text-field>
-                </v-flex>
-                <v-flex xs12 v-if="editar">
-                  <v-text-field v-model="editedItem.visitas" label="visitas"></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="close">Cancelar</v-btn>
-            <v-btn v-if="!editar" color="blue darken-1" flat @click="guardarServicio">Guardar</v-btn>
-            <v-btn v-if="editar" color="blue darken-1" flat @click="actualizarServicio">Editar</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    <Iterar
-    :servicios="servicios"
-      v-on:editar="editItem" 
-      v-on:eliminar="deleteItem"
-      >
-    >
-    </Iterar>
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">{{ formTitle }}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.nombre_servicio" label="Nombre"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.descripcion_servicio" label="Descripción"></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-menu
+                  :close-on-content-click="false"
+                  v-model="menu"
+                  :nudge-right="40"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="editedItem.fecha_publicacion_se"
+                    label="Fecha de publicación"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker v-model="editedItem.fecha_publicacion_se" @input="menu = false"></v-date-picker>
+                </v-menu>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-menu
+                  :close-on-content-click="false"
+                  v-model="menu2"
+                  :nudge-right="40"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="editedItem.fecha_finalizacion_se"
+                    label="Fecha de Finalización"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker v-model="editedItem.fecha_finalizacion_se" @input="menu2 = false"></v-date-picker>
+                </v-menu>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.tags_servicio" label="Tags"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-select
+                  :items="tipo_pago"
+                  item-text="tipo_pago"
+                  item-value="tipo_pago"
+                  label="Metodo de Pago"
+                  v-model="tipo_pago_elegido"
+                  v-on:change="cambioTipoPago"
+                  return-object
+                ></v-select>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.precio_servicio" label="Precio"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.creador" label="Creador del servicio"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.ubicacion" label="Ubicación"></v-text-field>
+              </v-flex>
+              <v-flex xs12 v-if="editar">
+                <v-text-field v-model="editedItem.visitas" label="visitas"></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click.native="close">Cancelar</v-btn>
+          <v-btn v-if="!editar" color="blue darken-1" flat @click="guardarServicio">Guardar</v-btn>
+          <v-btn v-if="editar" color="blue darken-1" flat @click="actualizarServicio">Editar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <Iterar :servicios="servicios" v-on:editar="editItem" v-on:eliminar="deleteItem">></Iterar>
   </v-container>
 </template>
 
@@ -139,7 +123,8 @@ export default {
       { text: "Tags Servicio", value: "tags_servicio" },
       { text: "Tipo de Pago", value: "tipo_pago" },
       { text: "Precio Servicio", value: "precio_servicio" },
-      { text: "Reputación", value: "reputacion" },
+      { text: "Me Gusta", value: "me_gusta" },
+      { text: "No me Gusta", value: "no_me_gusta" },
       { text: "Actions", value: "name", sortable: false }
     ],
     servicios: [],
@@ -157,7 +142,8 @@ export default {
       visitas: "",
       creador: "",
       ubicacion: "",
-      reputacion: ""
+      me_gusta: "",
+      no_me_gusta: ""
     },
     defaultItem: {
       id: 0,
@@ -172,7 +158,8 @@ export default {
       visitas: "",
       creador: "",
       ubicacion: "",
-      reputacion: ""
+      me_gusta: "",
+      no_me_gusta: ""
     }
   }),
 
@@ -261,7 +248,8 @@ export default {
           creador: this.editedItem.creador,
           tipo_pago: this.tipo_pago_elegido.tipo_pago,
           precio_servicio: this.editedItem.precio_servicio,
-          reputacion: 0,
+          me_gusta: this.editedItem.me_gusta,
+          no_me_gusta: this.editedItem.no_me_gusta,
           ubicacion: this.editedItem.ubicacion
         })
         .then(response => {
@@ -286,11 +274,13 @@ export default {
           creador: this.editedItem.creador,
           tipo_pago: this.tipo_pago_elegido,
           precio_servicio: this.editedItem.precio_servicio,
-          reputacion: this.editedItem.visitas,
+          me_gusta: this.editedItem.me_gusta,
+          no_me_gusta: this.editedItem.no_me_gusta,
           ubicacion: this.editedItem.ubicacion
         })
         .then(response => {
           this.cargarServicios();
+          this.close();
           console.log(response);
         })
         .catch(error => {

@@ -74,6 +74,9 @@ Route::get('/cliente/contratar/{servicio}', function () {
 Route::get('/cliente/serviciosContratados', function () {
     return view('app');
 });
+Route::get('/cliente/perfil', function () {
+    return view('app');
+});
 
 
 
@@ -85,6 +88,7 @@ Route::resource('metodosPagos','MetodoPagoController', ['except'=>['show','edit'
 
 Route::get('/serviciosUsuario','ServicioController@serviciosUsuario');
 Route::post('/serviciosUsuario/{servicio}/{usuario}','ServicioController@guardarContrato');
+Route::put('/serviciosUsuario/{servicio}/{usuario}','ServicioController@actualizarContrato');
 Route::get('/serviciosContratados','ServicioController@serviciosContratados');
 Route::get('/serviciosActivos','ServicioController@serviciosActivos');
 

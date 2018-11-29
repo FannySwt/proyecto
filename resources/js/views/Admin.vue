@@ -1,23 +1,11 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer
-      :clipped="$vuetify.breakpoint.lgAndUp"
-      v-model="drawer"
-      fixed
-      app
-    >
+    <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="drawer" fixed app>
       <v-list dense>
         <template v-for="item in items">
-          <v-layout
-            v-if="item.heading"
-            :key="item.heading"
-            row
-            align-center
-          >
+          <v-layout v-if="item.heading" :key="item.heading" row align-center>
             <v-flex xs6>
-              <v-subheader v-if="item.heading">
-                {{ item.heading }}
-              </v-subheader>
+              <v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
             </v-flex>
             <v-flex xs6 class="text-xs-center">
               <a href="#!" class="body-2 black--text">EDIT</a>
@@ -32,9 +20,7 @@
           >
             <v-list-tile slot="activator">
               <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ item.text }}
-                </v-list-tile-title>
+                <v-list-tile-title>{{ item.text }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile
@@ -46,32 +32,26 @@
                 <v-icon>{{ child.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ child.text }}
-                </v-list-tile-title>
+                <v-list-tile-title>{{ child.text }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
-          <v-list-tile v-else :key="item.text" @click="item.link? redirect(item.link) : redirect('/home')">
+          <v-list-tile
+            v-else
+            :key="item.text"
+            @click="item.link? redirect(item.link) : redirect('/home')"
+          >
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>
-                {{ item.text }}
-              </v-list-tile-title>
+              <v-list-tile-title>{{ item.text }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
-      color="blue darken-3"
-      dark
-      app
-      fixed
-    >
+    <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="blue darken-3" dark app fixed>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <span class="hidden-sm-and-down">Venta de Servicios</span>
@@ -91,14 +71,11 @@
       <v-btn icon>
         <v-icon>notifications</v-icon>
       </v-btn>
-      <v-btn
-        icon large
-        @click="$emit('logout')"
-      >
+      <v-btn icon large @click="$emit('logout')">
         <v-avatar size="32px" tile>
           <v-icon>person</v-icon>
         </v-avatar>
-      </v-btn>
+      </v-btn>Cerrar Sesión
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -116,6 +93,7 @@ export default {
     dialog: false,
     drawer: null,
     items: [
+      { icon: "person", text: "Mi Perfil", link: "/admin/perfil" },
       { icon: "person_add", text: "Usuarios", link: "/admin/users" },
       { icon: "add", text: "Categorías", link: "/admin/categorias" },
       { icon: "cake", text: "Mis Servicios", link: "/admin/servicios" },

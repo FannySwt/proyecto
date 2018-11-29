@@ -17,6 +17,7 @@ import AdminMetodosPagos from "./views/admin/MetodosPagos.vue";
 import AdminServicios from "./views/cliente/Servicios.vue";
 import AdminVerServicios from "./views/cliente/VerServicios";
 import AdminContratar from "./components/publico/Contratar.vue";
+import AdminPerfil from "./views/admin/Perfil.vue";
 
 import Secretaria from "./views/secretaria.vue";
 import SecretariaIndex from "./views/secretaria/Index.vue";
@@ -24,6 +25,7 @@ import SecretariaUsers from "./views/secretaria/Users.vue";
 import SecretariaValidar from "./views/secretaria/Validar.vue";
 import SecretariaServicios from "./views/secretaria/Servicios.vue";
 import SecretariaContratar from "./components/publico/Contratar.vue";
+import SecretariaPerfil from "./views/admin/Perfil.vue";
 
 import Cliente from "./views/cliente.vue";
 import ClienteIndex from "./views/cliente/Index.vue";
@@ -32,6 +34,7 @@ import ClienteVerServicios from "./views/cliente/VerServicios.vue";
 import ClienteContratar from "./components/publico/Contratar.vue";
 import ClienteEncuesta from "./components/publico/Encuenta.vue";
 import ClienteServiciosContratados from "./views/cliente/ServiciosContratados.vue";
+import ClientePerfil from "./views/admin/Perfil.vue";
 
 import ServicioId from "./components/publico/Servicios.vue";
 
@@ -118,6 +121,11 @@ export default new Router({
                     name: "adminContratar",
                     component: AdminContratar,
                     props: true
+                },
+                {
+                    path: "perfil",
+                    name: "adminPerfil",
+                    component: AdminPerfil
                 }
             ]
         },
@@ -151,6 +159,11 @@ export default new Router({
                     name: "secretariaContratar",
                     component: SecretariaContratar,
                     props: true
+                },
+                {
+                    path: "perfil",
+                    name: "secretariaPerfil",
+                    component: SecretariaPerfil
                 }
             ]
         },
@@ -188,6 +201,11 @@ export default new Router({
                     path: "encuesta",
                     name: "clienteEncuesta",
                     component: ClienteEncuesta
+                },
+                {
+                    path: "perfil",
+                    name: "clientePerfil",
+                    component: ClientePerfil
                 }
             ]
         }

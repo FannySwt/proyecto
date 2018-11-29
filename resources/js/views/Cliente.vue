@@ -1,24 +1,12 @@
 <template>
   <v-app id="inspire">
     <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" height="100vh"></v-parallax>
-    <v-navigation-drawer
-      :clipped="$vuetify.breakpoint.lgAndUp"
-      v-model="drawer"
-      fixed
-      app
-    >
+    <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="drawer" fixed app>
       <v-list dense>
         <template v-for="item in items">
-          <v-layout
-            v-if="item.heading"
-            :key="item.heading"
-            row
-            align-center
-          >
+          <v-layout v-if="item.heading" :key="item.heading" row align-center>
             <v-flex xs6>
-              <v-subheader v-if="item.heading">
-                {{ item.heading }}
-              </v-subheader>
+              <v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
             </v-flex>
             <v-flex xs6 class="text-xs-center">
               <a href="#!" class="body-2 black--text">EDIT</a>
@@ -33,9 +21,7 @@
           >
             <v-list-tile slot="activator">
               <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ item.text }}
-                </v-list-tile-title>
+                <v-list-tile-title>{{ item.text }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile
@@ -47,32 +33,26 @@
                 <v-icon>{{ child.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ child.text }}
-                </v-list-tile-title>
+                <v-list-tile-title>{{ child.text }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
-          <v-list-tile v-else :key="item.text" @click="item.link? redirect(item.link) : redirect('/home')">
+          <v-list-tile
+            v-else
+            :key="item.text"
+            @click="item.link? redirect(item.link) : redirect('/home')"
+          >
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>
-                {{ item.text }}
-              </v-list-tile-title>
+              <v-list-tile-title>{{ item.text }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
-      color="blue darken-3"
-      dark
-      app
-      fixed
-    >
+    <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="blue darken-3" dark app fixed>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <span class="hidden-sm-and-down">Venta de Servicios</span>
@@ -92,14 +72,12 @@
       <v-btn icon>
         <v-icon>notifications</v-icon>
       </v-btn>
-      <v-btn 
-        icon large
-        @click="$emit('logout')"
-      >
+
+      <v-btn icon large @click="$emit('logout')">
         <v-avatar size="32px" tile>
           <v-icon>person</v-icon>
         </v-avatar>
-      </v-btn>
+      </v-btn>Cerrar Sesión
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -110,42 +88,25 @@
     </v-content>
     <v-dialog v-model="dialog" width="800px">
       <v-card>
-        <v-card-title
-          class="grey lighten-4 py-4 title"
-        >
-          Nuevo Servicio
-        </v-card-title>
+        <v-card-title class="grey lighten-4 py-4 title">Nuevo Servicio</v-card-title>
         <v-container grid-list-sm class="pa-4">
           <v-layout row wrap>
             <v-flex xs12 align-center justify-space-between>
               <v-layout align-center>
                 <v-avatar size="40px" class="mr-3">
-                  <img
-                    src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
-                    alt=""
-                  >
+                  <img src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png" alt>
                 </v-avatar>
-                <v-text-field
-                  placeholder="Name"
-                ></v-text-field>
+                <v-text-field placeholder="Name"></v-text-field>
               </v-layout>
             </v-flex>
             <v-flex xs6>
-              <v-text-field
-                prepend-icon="business"
-                placeholder="Company"
-              ></v-text-field>
+              <v-text-field prepend-icon="business" placeholder="Company"></v-text-field>
             </v-flex>
             <v-flex xs6>
-              <v-text-field
-                placeholder="Job title"
-              ></v-text-field>
+              <v-text-field placeholder="Job title"></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field
-                prepend-icon="mail"
-                placeholder="Email"
-              ></v-text-field>
+              <v-text-field prepend-icon="mail" placeholder="Email"></v-text-field>
             </v-flex>
             <v-flex xs12>
               <v-text-field
@@ -156,10 +117,7 @@
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field
-                prepend-icon="notes"
-                placeholder="Notes"
-              ></v-text-field>
+              <v-text-field prepend-icon="notes" placeholder="Notes"></v-text-field>
             </v-flex>
           </v-layout>
         </v-container>
@@ -180,6 +138,7 @@ export default {
     dialog: false,
     drawer: null,
     items: [
+      { icon: "person", text: "Mi Perfil", link: "/cliente/perfil" },
       { icon: "cake", text: "Mis Servicios", link: "/cliente/servicios" },
       {
         icon: "visibility",

@@ -23,6 +23,8 @@ class CreateServicioUserTable extends Migration
             $table->integer('numero_tarjeta');
             $table->integer('numero_cuota');
             $table->integer('valor_cuota');
+            $table->integer('evaluar')->default(0);
+            $table->string('me_gusta')->default('no');
             $table->foreign('servicio_id')->references('id')->on('servicios')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

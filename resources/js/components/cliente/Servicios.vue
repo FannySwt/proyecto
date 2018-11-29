@@ -1,73 +1,57 @@
 <template>
-  <v-card
-    class="mx-auto elevation-20"
-    color="indigo lighten-2"
-    dark
-  
-    height="450px"
-  >
-
-    <v-layout justify-space-between >
-      <v-flex xs12>
-        <v-card-title primary-title >
-          <div>
-            <div class="h2">{{servicio.nombre_servicio}}</div>
-             <v-divider></v-divider>
-            <div class="h4">Descripción: {{servicio.descripcion_servicio}}</div>
-            <div class="h5 mt-4">Tags: {{servicio.tags_servicio}}</div>
-            <div class="h5 mt-2">Precio: {{servicio.precio_servicio}}</div>
-            <div class="h5 mt-2">Medios de pago: {{servicio.tipo_pago}}</div>
-            <div class="h5 mt-2">Ubicación: {{servicio.ubicacion}}</div>
-            <div class="h5 mt-2">Creador del Servicio: {{servicio.creador}}</div>
-          </div>
-        </v-card-title>
-      </v-flex>
-      <v-img
-        class="shrink ma-2"
-        contain
-        height="300px"
-        src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
-        style="flex-basis: 300px"
-      ></v-img>
-    </v-layout>
-    <v-divider dark></v-divider>
-    <v-layout>
-      <div class="h5 ml-3">Disponible: {{servicio.fecha_publicacion_se}} - {{servicio.fecha_finalizacion_se}}</div>
-      <v-spacer></v-spacer>
-      <v-icon 
-            small
-            class="mr-2"
-            @click="$emit('editar',servicio)"
-          >
-            edit
-      </v-icon>
-      <v-icon
-        class="mr-3"
-            small
-            @click="$emit('eliminar',servicio)"
-          >
-            delete
-          </v-icon>
-    </v-layout>
-    <v-card-actions class="h5 ml-1">
-      Reputación:
-
-      <span class="grey--text text--lighten-2 caption mr-2">
-        ({{ rating }})
-      </span>
-      <v-rating
-        v-model="rating"
-        background-color="white"
-        color="yellow accent-4"
-        dense
-        readonly
-        half-increments
-        hover
-        size="18"
-      ></v-rating>
-    </v-card-actions>
-  </v-card>
+  <v-hover>
+    <v-card slot-scope="{ hover }" class="mx-auto" color="grey lighten-4" max-width="600">
+      <v-img :aspect-ratio="16/9" src="https://cdn.vuetifyjs.com/images/cards/kitchen.png">
+        <v-expand-transition>
+          <div
+            v-if="hover"
+            class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+            style="height: 100%;"
+          >${{servicio.precio_servicio}}</div>
+        </v-expand-transition>
+      </v-img>
+      <v-card-text class="pt-4" style="position: relative;">
+        <div class="font-weight-light grey--text title mb-2">{{servicio.tags_servicio}}</div>
+        <h3 class="display-1 font-weight-light orange--text mb-2">{{servicio.nombre_servicio}}</h3>
+        <div class="font-weight-light title mb-2">
+          {{servicio.descripcion_servicio}}
+          <br>
+          <br>
+          Medios de Pago: {{servicio.tipo_pago}}
+          <br>
+          <br>
+          Ubicación: {{servicio.ubicacion}}
+          <br>
+          <v-divider></v-divider>
+          <v-layout>
+            Disponible: {{servicio.fecha_publicacion_se}} - {{servicio.fecha_finalizacion_se}}
+            <br>
+            <br>
+            <v-spacer></v-spacer>
+            <v-icon small class="mr-2" @click="$emit('editar',servicio)">edit</v-icon>
+            <v-icon class="mr-3" small @click="$emit('eliminar',servicio)">delete</v-icon>
+          </v-layout>
+          <v-layout class="ml-3" justify-start row fill-height>
+            <v-icon>thumb_up_alt</v-icon>
+            {{servicio.me_gusta}}
+            <v-icon class="ml-5">thumb_down_alt</v-icon>
+            {{servicio.no_me_gusta}}
+          </v-layout>
+        </div>
+      </v-card-text>
+    </v-card>
+  </v-hover>
 </template>
+<style>
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+</style>
 
 <script>
 export default {

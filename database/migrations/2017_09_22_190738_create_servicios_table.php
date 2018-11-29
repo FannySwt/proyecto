@@ -27,7 +27,8 @@ class CreateServiciosTable extends Migration
             $table->integer('visitas')->default(0);
             $table->string('creador');
             $table->string('ubicacion')->nullable();
-            $table->integer('reputacion')->default(0);
+            $table->integer('me_gusta')->default(0);
+            $table->integer('no_me_gusta')->default(0);
             $table->integer('categoria_id')->unsigned()->nullable();
             $table->timestamps();
 

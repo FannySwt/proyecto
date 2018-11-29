@@ -74,9 +74,14 @@ class ServicioController extends Controller
             'tipo_pago' => $request->tipo_pago,
             'numero_tarjeta' => $request->numero_tarjeta,
             'numero_cuota' => $request->numero_cuota,
-            'valor_cuota' => $request->valor_cuota
+            'valor_cuota' => $request->valor_cuota,
             ]
         );
+    }
+
+     public function actualizarContrato(Request $request, Servicio $servicio, User $usuario)
+    {
+        return ['resultado' => $usuario->serviciosContratados()->updateExistingPivot($servicio, $request->all())];
     }
 
     /**
