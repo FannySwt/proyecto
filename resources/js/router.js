@@ -18,6 +18,7 @@ import AdminServicios from "./views/cliente/Servicios.vue";
 import AdminVerServicios from "./views/cliente/VerServicios";
 import AdminContratar from "./components/publico/Contratar.vue";
 import AdminPerfil from "./views/admin/Perfil.vue";
+import AdminServiciosContratados from "./views/cliente/ServiciosContratados.vue";
 
 import Secretaria from "./views/secretaria.vue";
 import SecretariaIndex from "./views/secretaria/Index.vue";
@@ -26,6 +27,8 @@ import SecretariaValidar from "./views/secretaria/Validar.vue";
 import SecretariaServicios from "./views/secretaria/Servicios.vue";
 import SecretariaContratar from "./components/publico/Contratar.vue";
 import SecretariaPerfil from "./views/admin/Perfil.vue";
+import SecretariaServiciosContratados from "./views/cliente/ServiciosContratados.vue";
+import SecretariaServiciosDenunciados from "./views/secretaria/Denunciados.vue";
 
 import Cliente from "./views/cliente.vue";
 import ClienteIndex from "./views/cliente/Index.vue";
@@ -126,6 +129,11 @@ export default new Router({
                     path: "perfil",
                     name: "adminPerfil",
                     component: AdminPerfil
+                },
+                {
+                    path: "serviciosContratados",
+                    name: "adminServiciosContratados",
+                    component: AdminServiciosContratados
                 }
             ]
         },
@@ -164,6 +172,16 @@ export default new Router({
                     path: "perfil",
                     name: "secretariaPerfil",
                     component: SecretariaPerfil
+                },
+                {
+                    path: "serviciosContratados",
+                    name: "secretariaServiciosContratados",
+                    component: SecretariaServiciosContratados
+                },
+                {
+                    path: "serviciosDenunciados",
+                    name: "secretariaServiciosDenunciados",
+                    component: SecretariaServiciosDenunciados
                 }
             ]
         },

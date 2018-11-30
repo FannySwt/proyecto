@@ -8,13 +8,8 @@
       row
       wrap
     >
-      <v-flex
-        slot="item"
-        slot-scope="props"
-        xs4
-      >
-        <servicios v-bind:servicio="props.item">
-        </servicios>
+      <v-flex slot="item" slot-scope="props" xs4>
+        <servicios v-bind:servicio="props.item"></servicios>
       </v-flex>
     </v-data-iterator>
   </v-container>
@@ -27,7 +22,7 @@ export default {
   data: () => ({
     rowsPerPageItems: [3, 6, 9],
     pagination: {
-      rowsPerPage: 6
+      rowsPerPage: 9
     },
     servicios: []
   }),

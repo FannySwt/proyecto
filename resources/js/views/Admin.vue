@@ -98,14 +98,19 @@ export default {
       { icon: "add", text: "Categorías", link: "/admin/categorias" },
       { icon: "cake", text: "Mis Servicios", link: "/admin/servicios" },
       {
+        icon: "credit_card",
+        text: "Métodos de Pago",
+        link: "/admin/metodosPagos"
+      },
+      {
         icon: "cake",
         text: "Contratar Servicios",
         link: "/admin/verServicios"
       },
       {
-        icon: "credit_card",
-        text: "Métodos de Pago",
-        link: "/admin/metodosPagos"
+        icon: "visibility",
+        text: "Mis Servicios Contratados",
+        link: "/admin/serviciosContratados"
       }
     ]
   }),

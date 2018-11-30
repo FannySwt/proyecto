@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Servicio extends Model
 {
 
-    protected $fillable = ['nombre_servicio','descripcion_servicio','estado','fecha_publicacion_se','fecha_finalizacion_se','precio_servicio','tags_servicio','tipo_pago','visitas','creador','ubicacion','me_gusta','no_me_gusta','categoria_id'];
+    protected $fillable = ['nombre_servicio','descripcion_servicio','estado','fecha_publicacion_se','fecha_finalizacion_se','precio_servicio','tags_servicio','tipo_pago','visitas','creador','ubicacion','me_gusta','no_me_gusta','categoria_id','denunciado'];
 
     public function image()
     {
@@ -17,6 +17,11 @@ class Servicio extends Model
     public function Ubicacion()
     {
     	return $this->belongsToMany('App\Ubicacion');
+    }
+
+    public function Denuncia()
+    {
+    	return $this->hasMany('App\Denuncia');
     }
 
     public function encuesta()

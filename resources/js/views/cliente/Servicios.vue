@@ -143,7 +143,8 @@ export default {
       creador: "",
       ubicacion: "",
       me_gusta: "",
-      no_me_gusta: ""
+      no_me_gusta: "",
+      denunciado: ""
     },
     defaultItem: {
       id: 0,
@@ -159,7 +160,8 @@ export default {
       creador: "",
       ubicacion: "",
       me_gusta: "",
-      no_me_gusta: ""
+      no_me_gusta: "",
+      denunciado: ""
     }
   }),
 
@@ -248,13 +250,15 @@ export default {
           creador: this.editedItem.creador,
           tipo_pago: this.tipo_pago_elegido.tipo_pago,
           precio_servicio: this.editedItem.precio_servicio,
-          me_gusta: this.editedItem.me_gusta,
-          no_me_gusta: this.editedItem.no_me_gusta,
-          ubicacion: this.editedItem.ubicacion
+          me_gusta: 0,
+          no_me_gusta: 0,
+          ubicacion: this.editedItem.ubicacion,
+          denunciado: this.editedIndex.denunciado
         })
         .then(response => {
           console.log(response);
           this.cargarServicios();
+          this.close();
         })
         .catch(error => {
           console.log(error);
@@ -276,7 +280,8 @@ export default {
           precio_servicio: this.editedItem.precio_servicio,
           me_gusta: this.editedItem.me_gusta,
           no_me_gusta: this.editedItem.no_me_gusta,
-          ubicacion: this.editedItem.ubicacion
+          ubicacion: this.editedItem.ubicacion,
+          denunciado: this.editedItem.denunciado
         })
         .then(response => {
           this.cargarServicios();

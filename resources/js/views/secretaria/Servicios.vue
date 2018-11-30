@@ -259,23 +259,23 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    cargarMetodosPago() {
+      var url = "/metodosPagos";
+      axios
+        .get(url)
+        .then(response => {
+          this.tipo_pago = response.data;
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    cambioTipoPago() {
+      console.log(this.tipo_pago_elegido);
+      this.cuotas = this.tipo_pago_elegido.cuotas;
     }
-  },
-  cargarMetodosPago() {
-    var url = "/metodosPagos";
-    axios
-      .get(url)
-      .then(response => {
-        this.tipo_pago = response.data;
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  },
-  cambioTipoPago() {
-    console.log(this.tipo_pago_elegido);
-    this.cuotas = this.tipo_pago_elegido.cuotas;
   },
   components: {
     Iterar

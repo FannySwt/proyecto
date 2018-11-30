@@ -33,6 +33,7 @@
               @click="actualizarServicio"
               color="success"
             >Activo</v-btn>
+
             <v-btn
               v-if="servicio.estado=='inactivo'"
               @click="actualizarServicio"
@@ -46,6 +47,56 @@
             {{servicio.no_me_gusta}}
           </v-layout>
         </div>
+        <v-divider></v-divider>
+        <v-layout>
+          <div class="font-weight-light title mb-2">Motivos de Denuncias del Servicio</div>
+          <v-spacer></v-spacer>
+          <v-dialog v-model="dialog" max-width="1000px">
+            <v-btn
+              slot="activator"
+              class="justify-end"
+              @click="verDenuncias()"
+              color="info"
+              dark
+            >Ver</v-btn>
+
+            <v-card>
+              <v-card-title
+                class="headline blue lighten-2"
+                primary-title
+              >Motivos de Denuncias del Servicio</v-card-title>
+              <br>
+              <v-layout>
+                <div class="headline lighten-2 title ml-5 mb-2 i">Comentarios</div>
+                <v-spacer></v-spacer>
+                <div class="headline lighten-2 title mr-5 mb-2 i">Acción</div>
+              </v-layout>
+              <v-data-table :headers="headers" :items="denuncia" hide-actions class="elevation-1">
+                <template slot="items" item-key slot-scope="props">
+                  <v-layout>
+                    <v-flex xs11>
+                      <div class="headline lighten-2 title mb-2 ml-5 i">-{{ props.item.comentario }}</div>
+                    </v-flex>
+                    <v-spacer></v-spacer>
+                    <v-flex xs1 justify-center align-center>
+                      <v-icon big @click="eliminar(props.item)">delete</v-icon>
+                    </v-flex>
+                    <br>
+                  </v-layout>
+                  <v-divider></v-divider>
+                </template>
+                <template slot="no-data">
+                  <div class="font-weight-light title mb-2 ml-5">No hay Denuncias para mostrar.</div>
+                </template>
+              </v-data-table>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" flat @click="dialog = false">Aceptar</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-layout>
       </v-card-text>
     </v-card>
   </v-hover>
@@ -65,10 +116,18 @@
 <script>
 export default {
   data: () => ({
-    rating: 4.3
+    rating: 4.3,
+    dialog: false,
+    denuncia: []
   }),
   props: {
-    servicio: {}
+    servicio: {},
+    denuncia: {}
+  },
+  computed: {
+    idServicio() {
+      return this.servicio.id;
+    }
   },
   methods: {
     actualizarServicio() {
@@ -93,8 +152,7 @@ export default {
           precio_servicio: this.servicio.precio_servicio,
           me_gusta: this.servicio.me_gusta,
           no_me_gusta: this.servicio.no_me_gusta,
-          ubicacion: this.servicio.ubicacion,
-          denunciado: this.denunciado
+          ubicacion: this.servicio.ubicacion
         })
         .then(response => {
           if (this.servicio.estado == "activo") {
@@ -107,6 +165,34 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    verDenuncias() {
+      var url = "/comentariosDenuncia/" + this.idServicio;
+      axios
+        .get(url)
+        .then(response => {
+          this.denuncia = response.data;
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    eliminar(servicio) {
+      var url = "/denuncias/" + servicio.id;
+      axios
+        .delete(url)
+        .then(response => {
+          console.log("eliminado", response);
+          this.verDenuncias();
+          close();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    close() {
+      dialog = false;
     }
   }
 };

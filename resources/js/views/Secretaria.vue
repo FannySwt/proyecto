@@ -71,7 +71,7 @@
         </v-btn>
         <v-btn icon>
           <v-icon>notifications</v-icon>
-        </v-btn>Cerrar Sesión
+        </v-btn>
         <v-btn icon large @click="$emit('logout')">
           <v-avatar size="32px" tile>
             <v-icon>person</v-icon>
@@ -106,6 +106,16 @@ export default {
         icon: "visibility",
         text: "Ver Servicios",
         link: "/secretaria/servicios"
+      },
+      {
+        icon: "visibility",
+        text: "Mis Servicios Contratados",
+        link: "/secretaria/serviciosContratados"
+      },
+      {
+        icon: "visibility",
+        text: "Servicios Denunciados",
+        link: "/secretaria/serviciosDenunciados"
       }
     ]
   }),

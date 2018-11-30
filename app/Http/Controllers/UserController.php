@@ -81,6 +81,10 @@ class UserController extends Controller
         return $clientes;*/
     }
 
+    public function user_login(){
+        return $user = Auth::user();
+    }
+
     /**
      * Show the form for creating a new resource.
      *

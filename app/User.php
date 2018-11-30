@@ -56,7 +56,8 @@ class User extends Authenticatable
             'numero_cuota',
             'valor_cuota',
             'me_gusta',
-            'evaluar');
+            'evaluar',
+            'denunciar');
     }
 
 }

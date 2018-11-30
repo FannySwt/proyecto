@@ -29,6 +29,7 @@ class CreateServiciosTable extends Migration
             $table->string('ubicacion')->nullable();
             $table->integer('me_gusta')->default(0);
             $table->integer('no_me_gusta')->default(0);
+            $table->string('denunciado')->default('no');
             $table->integer('categoria_id')->unsigned()->nullable();
             $table->timestamps();
 

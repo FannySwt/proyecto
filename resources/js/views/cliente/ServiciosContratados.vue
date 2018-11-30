@@ -57,10 +57,43 @@
           </v-dialog>
         </div>
       </td>
+
+      <td>
+        <div class="text-xs-center">
+          <v-btn v-if="props.item.pivot.denunciar == 1" color="info" dark>Denunciado</v-btn>
+          <v-dialog v-model="dialog2" width="500">
+            <v-btn
+              v-if="props.item.pivot.denunciar == 0"
+              slot="activator"
+              color="success"
+              dark
+            >Denunciar</v-btn>
+            <v-card>
+              <v-card-title
+                class="headline grey lighten-2"
+                primary-title
+              >Escribe el Motivo de tu denuncia</v-card-title>
+              <v-card-text></v-card-text>
+              <v-divider></v-divider>
+              <v-layout justify-space-around>
+                <v-flex>
+                  <v-textarea label="Comentario" v-model="editedItem.comentario" hint="Hint text"></v-textarea>
+                </v-flex>
+              </v-layout>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="danger" flat @click="close()">Cancelar</v-btn>
+                <v-btn color="primary" flat @click="guardarDenuncia(props.item)">Aceptar</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
+      </td>
+
       <td class="justify-center align-center layout px-0"></td>
     </template>
     <template slot="no-data">
-      <v-btn color="primary" @click="initialize">Reiniciar</v-btn>
+      <div class="font-weight-light title mb-2 ml-5">Primero contrata un servicio.</div>
     </template>
   </v-data-table>
 </template>
@@ -69,6 +102,8 @@
 export default {
   data: () => ({
     dialog: false,
+    dialog2: false,
+    usuario: {},
     headers: [
       {
         text: "Fecha inicial del contrato",
@@ -81,6 +116,7 @@ export default {
       { text: "Número de Tarjeta", value: "numero_tarjeta" },
       { text: "Número de Cuotas", value: "numero_cuota" },
       { text: "Valor de las Cuotas", value: "valor_cuota" },
+      { text: "Acción" },
       { text: "Acción", class: "center", value: "name", sortable: false }
     ],
     ServiciosContratados: [],
@@ -95,7 +131,9 @@ export default {
       numero_cuota: "",
       valor_cuota: "",
       me_gusta: "",
-      evaluar: ""
+      evaluar: "",
+      denunciar: "",
+      comentario: ""
     },
     defaultItem: {
       id: 0,
@@ -107,7 +145,9 @@ export default {
       numero_cuota: "",
       valor_cuota: "",
       me_gusta: "",
-      evaluar: ""
+      evaluar: "",
+      denunciar: "",
+      comentario: ""
     }
   }),
   created() {
@@ -134,9 +174,11 @@ export default {
     },
     close() {
       this.dialog = false;
+      this.dialog2 = false;
     },
     save(servicio) {
-      var url = "/serviciosUsuario/" + servicio.id + "/" + servicio.user_id;
+      var url =
+        "/serviciosUsuario/" + servicio.id + "/" + servicio.pivot.user_id;
       axios
         .put(url, {
           fecha_contratacion: servicio.pivot.fecha_contratacion,
@@ -147,13 +189,40 @@ export default {
           numero_cuota: servicio.pivot.numero_cuota,
           valor_cuota: servicio.pivot.valor_cuota,
           me_gusta: servicio.pivot.me_gusta,
-          evaluar: 1
+          evaluar: servicio.pivot.evaluar + 1,
+          denunciar: servicio.pivot.denunciar
         })
         .then(response => {
           console.log(response);
           this.cargarServiciosContratados();
           this.close();
           this.actualizarServicio(servicio);
+        })
+        .catch(error => {
+          console.log("error", servicio.user_id);
+        });
+    },
+    denuncia(servicio) {
+      var url =
+        "/serviciosUsuario/" + servicio.id + "/" + servicio.pivot.user_id;
+      axios
+        .put(url, {
+          fecha_contratacion: servicio.pivot.fecha_contratacion,
+          fecha_fin_contratacion: servicio.pivot.fecha_fin_contratacion,
+          descuento_tipo_cliente: servicio.pivot.descuento_tipo_cliente,
+          numero_tarjeta: servicio.pivot.numero_tarjeta,
+          tipo_pago: servicio.pivot.tipo_pago,
+          numero_cuota: servicio.pivot.numero_cuota,
+          valor_cuota: servicio.pivot.valor_cuota,
+          me_gusta: servicio.pivot.me_gusta,
+          evaluar: servicio.pivot.evaluar,
+          denunciar: 1
+        })
+        .then(response => {
+          console.log(response);
+          this.cargarServiciosContratados();
+          this.close();
+          this.actualizarServicio();
         })
         .catch(error => {
           console.log(error);
@@ -184,7 +253,8 @@ export default {
           precio_servicio: servicio.precio_servicio,
           me_gusta: like,
           no_me_gusta: dislike,
-          ubicacion: servicio.ubicacion
+          ubicacion: servicio.ubicacion,
+          denunciado: servicio.denunciado
         })
         .then(response => {
           console.log(response);
@@ -193,15 +263,30 @@ export default {
           console.log(error);
         });
     },
+    guardarDenuncia(servicio) {
+      var url = "/denunciaServicio/" + servicio.id;
+      axios
+        .post(url, {
+          comentario: this.editedItem.comentario
+        })
+        .then(response => {
+          console.log(response);
+          this.denuncia(servicio);
+          this.actualizarServicioDenuncia(servicio);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     guardarUsuarioServicio(servicio) {
-      var like;
+      var like = 0;
       if (servicio.pivot.me_gusta == "si") {
         like = "no";
       } else {
         like = "si";
       }
-
-      var url = "/serviciosUsuario/" + servicio.id + "/" + servicio.user_id;
+      var url =
+        "/serviciosUsuario/" + servicio.id + "/" + servicio.pivot.user_id;
       axios
         .put(url, {
           fecha_contratacion: servicio.pivot.fecha_contratacion,
@@ -216,6 +301,44 @@ export default {
         .then(response => {
           console.log(response);
           this.cargarServiciosContratados();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    auth() {
+      var url = "/auth";
+      axios
+        .post(url)
+        .then(response => {
+          this.usuario = response.data;
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    actualizarServicioDenuncia(servicio) {
+      var url = "/servicios/" + servicio.id;
+      axios
+        .put(url, {
+          nombre_servicio: servicio.nombre_servicio,
+          descripcion_servicio: servicio.descripcion_servicio,
+          estado: servicio.estado,
+          fecha_publicacion_se: servicio.fecha_publicacion_se,
+          fecha_finalizacion_se: servicio.fecha_finalizacion_se,
+          tags_servicio: servicio.tags_servicio,
+          visitas: servicio.visitas,
+          creador: servicio.creador,
+          tipo_pago: servicio.tipo_pago,
+          precio_servicio: servicio.precio_servicio,
+          me_gusta: servicio.me_gusta,
+          no_me_gusta: servicio.no_me_gusta,
+          ubicacion: servicio.ubicacion,
+          denunciado: "si"
+        })
+        .then(response => {
+          console.log(response);
         })
         .catch(error => {
           console.log(error);

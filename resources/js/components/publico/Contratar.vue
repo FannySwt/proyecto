@@ -53,9 +53,11 @@
             </v-layout>
           </v-flex>"
           <v-flex xs6>
-            <v-input v-model="editedItem.descuento_tipo_cliente" prepend-icon="dialpad">
-              Descuento Tipo de Cliente"
-              {{descuento_tipo_cliente}}
+            <v-input
+              v-model="editedItem.descuento_tipo_cliente"
+              prepend-icon="dialpad"
+            >Descuento Tipo de Cliente"
+              <!--  {{descuento_tipo_cliente}}-->
             </v-input>
             <v-divider class="ml-4"></v-divider>
           </v-flex>
@@ -122,6 +124,8 @@ export default {
     tipo_pago_elegido: "",
     dialog: false,
     usuario: {},
+    usuarios: [],
+
     headers: [
       {
         text: "Fecha inicial del contrato",
@@ -208,7 +212,13 @@ export default {
     save() {
       this.guardarUsuarioServicio();
       this.close();
-      this.$router.push({ name: "clienteServiciosContratados" });
+      if (this.usuario.tipo_usuario == "cliente") {
+        this.$router.push({ name: "clienteServiciosContratados" });
+      } else if (this.usuario.tipo_usuario == "secretaria") {
+        this.$router.push({ name: "secretariaServiciosContratados" });
+      } else {
+        this.$router.push({ name: "adminServiciosContratados" });
+      }
     },
     cargarUsuarioServicio() {
       var url = "/serviciosUsuario";

@@ -25,7 +25,7 @@
           large
           right
           top
-          v-if="usuario.tipo_usuario=='secretaria'"
+          v-if="usuario.tipo_usuario=='secretaria' && !estaContratado"
           v-on:click="$router.push({name:'secretariaContratar', params: {servicio}})"
         >
           <v-icon>add_shopping_cart</v-icon>
@@ -38,7 +38,7 @@
           large
           right
           top
-          v-if="usuario.tipo_usuario=='cliente'"
+          v-if="usuario.tipo_usuario=='cliente' && !estaContratado"
           v-on:click="$router.push({name:'clienteContratar', params: {servicio}})"
         >
           <v-icon>add_shopping_cart</v-icon>
@@ -51,7 +51,7 @@
           large
           right
           top
-          v-if="usuario.tipo_usuario=='admin'"
+          v-if="usuario.tipo_usuario=='admin' && !estaContratado"
           v-on:click="$router.push({name:'adminContratar', params: {servicio}})"
         >
           <v-icon>add_shopping_cart</v-icon>
@@ -124,7 +124,7 @@
                       large
                       right
                       top
-                      v-if="usuario.tipo_usuario=='secretaria'"
+                      v-if="usuario.tipo_usuario=='secretaria' && !estaContratado"
                       v-on:click="$router.push({name:'secretariaContratar', params: {servicio}})"
                     >
                       <v-icon>add_shopping_cart</v-icon>
@@ -137,7 +137,7 @@
                       large
                       right
                       top
-                      v-if="usuario.tipo_usuario=='cliente'"
+                      v-if="usuario.tipo_usuario=='cliente' && !estaContratado"
                       v-on:click="$router.push({name:'clienteContratar', params: {servicio}})"
                     >
                       <v-icon>add_shopping_cart</v-icon>
@@ -150,7 +150,7 @@
                       large
                       right
                       top
-                      v-if="usuario.tipo_usuario=='admin'"
+                      v-if="usuario.tipo_usuario=='admin' && !estaContratado"
                       v-on:click="$router.push({name:'adminContratar', params: {servicio}})"
                     >
                       <v-icon>add_shopping_cart</v-icon>
@@ -237,15 +237,26 @@ import Servicios from "./../../components/publico/Servicios";
 export default {
   created() {
     this.auth();
+    this.inicialize();
   },
   data: () => ({
     rating: 4.3,
     dialog: false,
     servicios: [],
-    usuario: {}
+    usuario: {},
+    serviciosContratados: []
   }),
   props: {
     servicio: {}
+  },
+  computed: {
+    estaContratado() {
+      const servicio = this.serviciosContratados.find(
+        item => item.id == this.servicio.id
+      );
+      if (servicio) return true;
+      else false;
+    }
   },
   components: {
     Servicios,
@@ -254,6 +265,9 @@ export default {
   methods: {
     redirect(link) {
       this.$router.push(link);
+    },
+    inicialize() {
+      this.cargarServiciosContratados();
     },
     registro: function(event) {
       alert("Primero debes Iniciar Sesión");
@@ -273,7 +287,8 @@ export default {
           tipo_pago: this.servicio.tipo_pago,
           precio_servicio: this.servicio.precio_servicio,
           reputacion: this.servicio.reputacion,
-          ubicacion: this.servicio.ubicacion
+          ubicacion: this.servicio.ubicacion,
+          denunciado: this.servicios.denunciado
         })
         .then(response => {
           this.servicio.visitas++;
@@ -292,6 +307,18 @@ export default {
         .then(response => {
           this.usuario = response.data;
           console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    cargarServiciosContratados() {
+      var url = "/serviciosContratados";
+      axios
+        .get(url)
+        .then(response => {
+          this.serviciosContratados = response.data;
+          console.log(serviciosContratados);
         })
         .catch(error => {
           console.log(error);

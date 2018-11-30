@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Servicios from "./../publico/Servicios";
+import Servicios from "./../secretaria/denunciaServicio";
 
 export default {
   data: () => ({
@@ -28,10 +28,23 @@ export default {
   }),
   created() {
     this.cargarServicios();
+    this.cargarDenuncias();
   },
   methods: {
+    cargarDenuncias() {
+      var url = "/comentariosDenuncia/" + this.servicio.id;
+      axios
+        .get(url)
+        .then(response => {
+          this.denuncia = response.data;
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     cargarServicios() {
-      var url = "/serviciosActivos";
+      var url = "/serviciosDenunciados";
       axios
         .get(url)
         .then(response => {

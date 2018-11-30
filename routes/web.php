@@ -44,6 +44,9 @@ Route::get('/admin/users', function () {
 Route::get('/admin/metodosPagos', function () {
     return view('app');
 });
+Route::get('/admin/serviciosContratados', function () {
+    return view('app');
+});
 Route::get('/secretaria', function () {
     return view('app');
 });
@@ -57,6 +60,12 @@ Route::get('/secretaria/contratar', function () {
     return view('app');
 });
 Route::get('/secretaria/users', function () {
+    return view('app');
+});
+Route::get('/secretaria/serviciosContratados', function () {
+    return view('app');
+});
+Route::get('/secretaria/serviciosDenunciados', function () {
     return view('app');
 });
 Route::get('/cliente', function () {
@@ -85,12 +94,16 @@ Route::resource('servicios','ServicioController', ['except'=>['edit','create']])
 Route::resource('ubicaciones','UbicacionController', ['except'=>['show','edit','create']]);
 Route::resource('categorias','CategoriaController', ['except'=>['show','edit','create']]);
 Route::resource('metodosPagos','MetodoPagoController', ['except'=>['show','edit','create']]);
+Route::resource('denuncias','DenunciaController', ['except'=>['show','edit','create']]);
 
+Route::post('/denunciaServicio/{servicio}','DenunciaController@denunciaServicio');
 Route::get('/serviciosUsuario','ServicioController@serviciosUsuario');
 Route::post('/serviciosUsuario/{servicio}/{usuario}','ServicioController@guardarContrato');
 Route::put('/serviciosUsuario/{servicio}/{usuario}','ServicioController@actualizarContrato');
 Route::get('/serviciosContratados','ServicioController@serviciosContratados');
 Route::get('/serviciosActivos','ServicioController@serviciosActivos');
+Route::get('/serviciosDenunciados','DenunciaController@serviciosDenunciados');
+Route::get('/comentariosDenuncia/{servicio}','DenunciaController@comentariosDenuncia');
 
 Route::post('/hash','UserController@hash');
 
