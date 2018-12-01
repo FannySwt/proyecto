@@ -74661,6 +74661,104 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -74674,9 +74772,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       rating: 4.3,
       dialog: false,
+      dialog2: true,
       servicios: [],
       usuario: {},
-      serviciosContratados: []
+      perfil_usuario: {},
+      serviciosUsuario: [],
+      serviciosContratados: [],
+      headers: [{ text: "Nombre Servicio", align: "left", value: "nombre_servicio" }, { text: "Descripción", value: "descripcion_servicio" }]
     };
   },
   props: {
@@ -74751,7 +74853,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var url = "/serviciosContratados";
       axios.get(url).then(function (response) {
         _this4.serviciosContratados = response.data;
-        console.log(serviciosContratados);
+        console.log(_this4.serviciosContratados);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    verPerfil: function verPerfil(id) {
+      var _this5 = this;
+
+      var url = "/usuarios/" + id;
+      axios.get(url).then(function (response) {
+        _this5.perfil_usuario = response.data;
+        _this5.cargarServicios();
+        console.log(response);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    cargarServicios: function cargarServicios() {
+      var _this6 = this;
+
+      var url = "/serviciosCreadosPorUsuario/" + this.perfil_usuario.id;
+      axios.get(url).then(function (response) {
+        _this6.serviciosUsuario = response.data;
+        _this6.dialog2 = true;
+        console.log(response);
       }).catch(function (error) {
         console.log(error);
       });
@@ -74779,646 +74905,776 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-hover", {
-    scopedSlots: _vm._u([
-      {
-        key: "default",
-        fn: function(ref) {
-          var hover = ref.hover
-          return _vm.servicio.estado == "activo"
-            ? _c(
-                "v-card",
-                {
-                  staticClass: "mx-auto",
-                  attrs: { color: "grey lighten-4", "max-width": "600" }
-                },
-                [
-                  _c(
-                    "v-img",
-                    {
-                      attrs: {
-                        "aspect-ratio": 16 / 9,
-                        src:
-                          "https://cdn.vuetifyjs.com/images/cards/kitchen.png"
-                      }
-                    },
-                    [
-                      _c("v-expand-transition", [
-                        hover
+  return _c(
+    "v-hover",
+    {
+      scopedSlots: _vm._u([
+        {
+          key: "default",
+          fn: function(ref) {
+            var hover = ref.hover
+            return _vm.servicio.estado == "activo"
+              ? _c(
+                  "v-card",
+                  {
+                    staticClass: "mx-auto",
+                    attrs: { color: "grey lighten-4", "max-width": "600" }
+                  },
+                  [
+                    _c(
+                      "v-img",
+                      {
+                        attrs: {
+                          "aspect-ratio": 16 / 9,
+                          src:
+                            "https://cdn.vuetifyjs.com/images/cards/kitchen.png"
+                        }
+                      },
+                      [
+                        _c("v-expand-transition", [
+                          hover
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text",
+                                  staticStyle: { height: "100%" }
+                                },
+                                [
+                                  _vm._v(
+                                    "$" + _vm._s(_vm.servicio.precio_servicio)
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-text",
+                      {
+                        staticClass: "pt-4",
+                        staticStyle: { position: "relative" }
+                      },
+                      [
+                        _vm.usuario.tipo_usuario == "secretaria" &&
+                        !_vm.estaContratado
                           ? _c(
-                              "div",
+                              "v-btn",
                               {
-                                staticClass:
-                                  "d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text",
-                                staticStyle: { height: "100%" }
+                                staticClass: "white--text",
+                                attrs: {
+                                  absolute: "",
+                                  color: "orange",
+                                  fab: "",
+                                  large: "",
+                                  right: "",
+                                  top: ""
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.$router.push({
+                                      name: "secretariaContratar",
+                                      params: { servicio: _vm.servicio }
+                                    })
+                                  }
+                                }
                               },
+                              [_c("v-icon", [_vm._v("add_shopping_cart")])],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.usuario.tipo_usuario == "cliente" &&
+                        !_vm.estaContratado
+                          ? _c(
+                              "v-btn",
+                              {
+                                staticClass: "white--text",
+                                attrs: {
+                                  absolute: "",
+                                  color: "orange",
+                                  fab: "",
+                                  large: "",
+                                  right: "",
+                                  top: ""
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.$router.push({
+                                      name: "clienteContratar",
+                                      params: { servicio: _vm.servicio }
+                                    })
+                                  }
+                                }
+                              },
+                              [_c("v-icon", [_vm._v("add_shopping_cart")])],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.usuario.tipo_usuario == "admin" &&
+                        !_vm.estaContratado
+                          ? _c(
+                              "v-btn",
+                              {
+                                staticClass: "white--text",
+                                attrs: {
+                                  absolute: "",
+                                  color: "orange",
+                                  fab: "",
+                                  large: "",
+                                  right: "",
+                                  top: ""
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.$router.push({
+                                      name: "adminContratar",
+                                      params: { servicio: _vm.servicio }
+                                    })
+                                  }
+                                }
+                              },
+                              [_c("v-icon", [_vm._v("add_shopping_cart")])],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.usuario.tipo_usuario
+                          ? _c(
+                              "v-btn",
+                              {
+                                staticClass: "white--text",
+                                attrs: {
+                                  absolute: "",
+                                  color: "orange",
+                                  fab: "",
+                                  large: "",
+                                  right: "",
+                                  top: ""
+                                },
+                                on: { click: _vm.registro }
+                              },
+                              [_c("v-icon", [_vm._v("add_shopping_cart")])],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "font-weight-light grey--text title mb-2"
+                          },
+                          [_vm._v(_vm._s(_vm.servicio.tags_servicio))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "h3",
+                          {
+                            staticClass:
+                              "display-1 font-weight-light orange--text mb-2"
+                          },
+                          [_vm._v(_vm._s(_vm.servicio.nombre_servicio))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "font-weight-light title mb-2" },
+                          [
+                            _vm._v(
+                              "\n        " +
+                                _vm._s(_vm.servicio.descripcion_servicio) +
+                                "\n        "
+                            ),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(
+                              "\n        Medios de Pago: " +
+                                _vm._s(_vm.servicio.tipo_pago) +
+                                "\n        "
+                            ),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(
+                              "\n        Ubicación: " +
+                                _vm._s(_vm.servicio.ubicacion) +
+                                "\n        "
+                            ),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("v-divider"),
+                            _vm._v(" "),
+                            _c(
+                              "v-layout",
                               [
                                 _vm._v(
-                                  "$" + _vm._s(_vm.servicio.precio_servicio)
+                                  "\n          Disponible: " +
+                                    _vm._s(_vm.servicio.fecha_publicacion_se) +
+                                    " - " +
+                                    _vm._s(_vm.servicio.fecha_finalizacion_se) +
+                                    "\n          "
+                                ),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("v-spacer"),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "text-xs-center" },
+                                  [
+                                    _c(
+                                      "v-layout",
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: { color: "info" },
+                                            on: {
+                                              click: _vm.actualizarServicio
+                                            }
+                                          },
+                                          [_vm._v("Ver")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
                                 )
-                              ]
+                              ],
+                              1
                             )
-                          : _vm._e()
-                      ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("v-layout", [
+                      _c(
+                        "div",
+                        { staticClass: "h4 font-weight-light blue--text mb-2" },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", "justify-start": "" } },
+                            [
+                              _vm._v("Ver información del usuario\n          "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { fab: "", small: "", color: "info" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.verPerfil(_vm.servicio.user_id)
+                                    }
+                                  }
+                                },
+                                [_c("v-icon", [_vm._v("search")])],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "v-layout",
+                      {
+                        staticClass: "ml-3",
+                        attrs: {
+                          "justify-start": "",
+                          row: "",
+                          "fill-height": ""
+                        }
+                      },
+                      [
+                        _c("v-icon", [_vm._v("thumb_up_alt")]),
+                        _vm._v(
+                          "\n      " +
+                            _vm._s(_vm.servicio.me_gusta) +
+                            "\n      "
+                        ),
+                        _c("v-icon", { staticClass: "ml-5" }, [
+                          _vm._v("thumb_down_alt")
+                        ]),
+                        _vm._v(
+                          "\n      " +
+                            _vm._s(_vm.servicio.no_me_gusta) +
+                            "\n    "
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "layout row reverse fill-height mr-2" },
+                      [
+                        _vm._v(
+                          "\n      " + _vm._s(_vm.servicio.visitas) + "\n      "
+                        ),
+                        _c("div", { staticClass: "ml-1" }),
+                        _vm._v(" "),
+                        _c("v-icon", [_vm._v("visibility")])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              : _vm._e()
+          }
+        }
+      ])
+    },
+    [
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            {
+              staticClass: "mx-auto",
+              attrs: { color: "grey lighten-4", "max-width": "600" }
+            },
+            [
+              _c(
+                "v-img",
+                {
+                  attrs: {
+                    "aspect-ratio": 16 / 9,
+                    src: "https://cdn.vuetifyjs.com/images/cards/kitchen.png"
+                  }
+                },
+                [
+                  _c("v-expand-transition", [
+                    _vm.hover
+                      ? _c(
+                          "div",
+                          {
+                            staticClass:
+                              "d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text",
+                            staticStyle: { height: "100%" }
+                          },
+                          [_vm._v("$" + _vm._s(_vm.servicio.precio_servicio))]
+                        )
+                      : _vm._e()
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                { staticClass: "pt-4", staticStyle: { position: "relative" } },
+                [
+                  !_vm.auth
+                    ? _c(
+                        "v-btn",
+                        {
+                          staticClass: "white--text",
+                          attrs: {
+                            absolute: "",
+                            color: "orange",
+                            fab: "",
+                            large: "",
+                            right: "",
+                            top: ""
+                          },
+                          on: { click: _vm.registro }
+                        },
+                        [_c("v-icon", [_vm._v("add_shopping_cart")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.usuario.tipo_usuario == "secretaria" &&
+                  !_vm.estaContratado
+                    ? _c(
+                        "v-btn",
+                        {
+                          staticClass: "white--text",
+                          attrs: {
+                            absolute: "",
+                            color: "orange",
+                            fab: "",
+                            large: "",
+                            right: "",
+                            top: ""
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.$router.push({
+                                name: "secretariaContratar",
+                                params: { servicio: _vm.servicio }
+                              })
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("add_shopping_cart")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.usuario.tipo_usuario == "cliente" && !_vm.estaContratado
+                    ? _c(
+                        "v-btn",
+                        {
+                          staticClass: "white--text",
+                          attrs: {
+                            absolute: "",
+                            color: "orange",
+                            fab: "",
+                            large: "",
+                            right: "",
+                            top: ""
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.$router.push({
+                                name: "clienteContratar",
+                                params: { servicio: _vm.servicio }
+                              })
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("add_shopping_cart")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.usuario.tipo_usuario == "admin" && !_vm.estaContratado
+                    ? _c(
+                        "v-btn",
+                        {
+                          staticClass: "white--text",
+                          attrs: {
+                            absolute: "",
+                            color: "orange",
+                            fab: "",
+                            large: "",
+                            right: "",
+                            top: ""
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.$router.push({
+                                name: "adminContratar",
+                                params: { servicio: _vm.servicio }
+                              })
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("add_shopping_cart")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.usuario.tipo_usuario
+                    ? _c("v-btn", {
+                        staticClass: "white--text",
+                        attrs: {
+                          absolute: "",
+                          color: "orange",
+                          fab: "",
+                          large: "",
+                          right: "",
+                          top: ""
+                        },
+                        on: { click: _vm.registro }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "font-weight-light grey--text title mb-2" },
+                    [_vm._v(_vm._s(_vm.servicio.tags_servicio))]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "h3",
+                    {
+                      staticClass:
+                        "display-1 font-weight-light orange--text mb-2"
+                    },
+                    [_vm._v(_vm._s(_vm.servicio.nombre_servicio))]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "font-weight-light title mb-2" },
+                    [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(_vm.servicio.descripcion_servicio) +
+                          "\n          "
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(
+                        "\n          Medios de Pago: " +
+                          _vm._s(_vm.servicio.tipo_pago) +
+                          "\n          "
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(
+                        "\n          Ubicación: " +
+                          _vm._s(_vm.servicio.ubicacion) +
+                          "\n          "
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c(
+                        "v-layout",
+                        [
+                          _vm._v(
+                            "\n            Disponible: " +
+                              _vm._s(_vm.servicio.fecha_publicacion_se) +
+                              " - " +
+                              _vm._s(_vm.servicio.fecha_finalizacion_se) +
+                              "\n            "
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("v-spacer")
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-layout", [
+                _c(
+                  "div",
+                  { staticClass: "h4 font-weight-light blue--text mb-2" },
+                  [
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "", "justify-start": "" } },
+                      [
+                        _vm._v("Ver información del usuario\n            "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: {
+                              slot: "activador",
+                              fab: "",
+                              small: "",
+                              color: "info"
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.verPerfil(_vm.servicio.user_id)
+                              }
+                            },
+                            slot: "activador"
+                          },
+                          [_c("v-icon", [_vm._v("search")])],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-layout",
+                {
+                  staticClass: "ml-3",
+                  attrs: { "justify-start": "", row: "", "fill-height": "" }
+                },
+                [
+                  _c("v-icon", [_vm._v("thumb_up_alt")]),
+                  _vm._v(
+                    "\n        " + _vm._s(_vm.servicio.me_gusta) + "\n        "
+                  ),
+                  _c("v-icon", { staticClass: "ml-5" }, [
+                    _vm._v("thumb_down_alt")
+                  ]),
+                  _vm._v(
+                    "\n        " + _vm._s(_vm.servicio.no_me_gusta) + "\n      "
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "layout row reverse fill-height mr-2" },
+                [
+                  _vm._v(
+                    "\n        " + _vm._s(_vm.servicio.visitas) + "\n        "
+                  ),
+                  _c("div", { staticClass: "ml-1" }),
+                  _vm._v(" "),
+                  _c("v-icon", [_vm._v("visibility")])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500" },
+          model: {
+            value: _vm.dialog2,
+            callback: function($$v) {
+              _vm.dialog2 = $$v
+            },
+            expression: "dialog2"
+          }
+        },
+        [
+          _c(
+            "v-layout",
+            { attrs: { row: "" } },
+            [
+              _c(
+                "v-card",
+                { attrs: { width: "100%" } },
+                [
+                  _c(
+                    "v-toolbar",
+                    { attrs: { dark: "", color: "primary" } },
+                    [
+                      _c("v-icon", [_vm._v("person")]),
+                      _vm._v(" "),
+                      _c("v-toolbar-title", [
+                        _vm._v(_vm._s(_vm.perfil_usuario.nombre_usuario))
+                      ]),
+                      _vm._v(" "),
+                      _c("v-spacer")
                     ],
                     1
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-card-text",
-                    {
-                      staticClass: "pt-4",
-                      staticStyle: { position: "relative" }
-                    },
+                    "v-list",
+                    { attrs: { "three-line": "", subheader: "" } },
                     [
-                      _vm.usuario.tipo_usuario == "secretaria" &&
-                      !_vm.estaContratado
-                        ? _c(
-                            "v-btn",
-                            {
-                              staticClass: "white--text",
-                              attrs: {
-                                absolute: "",
-                                color: "orange",
-                                fab: "",
-                                large: "",
-                                right: "",
-                                top: ""
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.$router.push({
-                                    name: "secretariaContratar",
-                                    params: { servicio: _vm.servicio }
-                                  })
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("add_shopping_cart")])],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.usuario.tipo_usuario == "cliente" &&
-                      !_vm.estaContratado
-                        ? _c(
-                            "v-btn",
-                            {
-                              staticClass: "white--text",
-                              attrs: {
-                                absolute: "",
-                                color: "orange",
-                                fab: "",
-                                large: "",
-                                right: "",
-                                top: ""
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.$router.push({
-                                    name: "clienteContratar",
-                                    params: { servicio: _vm.servicio }
-                                  })
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("add_shopping_cart")])],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.usuario.tipo_usuario == "admin" && !_vm.estaContratado
-                        ? _c(
-                            "v-btn",
-                            {
-                              staticClass: "white--text",
-                              attrs: {
-                                absolute: "",
-                                color: "orange",
-                                fab: "",
-                                large: "",
-                                right: "",
-                                top: ""
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.$router.push({
-                                    name: "adminContratar",
-                                    params: { servicio: _vm.servicio }
-                                  })
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("add_shopping_cart")])],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      !_vm.usuario.tipo_usuario
-                        ? _c(
-                            "v-btn",
-                            {
-                              staticClass: "white--text",
-                              attrs: {
-                                absolute: "",
-                                color: "orange",
-                                fab: "",
-                                large: "",
-                                right: "",
-                                top: ""
-                              },
-                              on: { click: _vm.registro }
-                            },
-                            [_c("v-icon", [_vm._v("add_shopping_cart")])],
-                            1
-                          )
-                        : _vm._e(),
+                      _c("v-subheader"),
                       _vm._v(" "),
                       _c(
-                        "div",
-                        {
-                          staticClass: "font-weight-light grey--text title mb-2"
-                        },
-                        [_vm._v(_vm._s(_vm.servicio.tags_servicio))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "h3",
-                        {
-                          staticClass:
-                            "display-1 font-weight-light orange--text mb-2"
-                        },
-                        [_vm._v(_vm._s(_vm.servicio.nombre_servicio))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "font-weight-light title mb-2" },
+                        "v-list-tile",
+                        { attrs: { avatar: "" } },
                         [
-                          _vm._v(
-                            "\n        " +
-                              _vm._s(_vm.servicio.descripcion_servicio) +
-                              "\n        "
-                          ),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("br"),
-                          _vm._v(
-                            "\n        Medios de Pago: " +
-                              _vm._s(_vm.servicio.tipo_pago) +
-                              "\n        "
-                          ),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("br"),
-                          _vm._v(
-                            "\n        Ubicación: " +
-                              _vm._s(_vm.servicio.ubicacion) +
-                              "\n        "
-                          ),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("v-divider"),
-                          _vm._v(" "),
                           _c(
-                            "v-layout",
+                            "v-list-tile-content",
                             [
-                              _vm._v(
-                                "\n          Disponible: " +
-                                  _vm._s(_vm.servicio.fecha_publicacion_se) +
-                                  " - " +
-                                  _vm._s(_vm.servicio.fecha_finalizacion_se) +
-                                  "\n          "
-                              ),
-                              _c("br"),
+                              _c("v-list-tile-title", [
+                                _vm._v("Datos Personales:")
+                              ]),
                               _vm._v(" "),
-                              _c("br"),
+                              _c("v-list-tile-sub-title", [
+                                _vm._v(
+                                  "Rut: " +
+                                    _vm._s(_vm.perfil_usuario.rut_usuario)
+                                )
+                              ]),
                               _vm._v(" "),
-                              _c("v-spacer"),
+                              _c("v-list-tile-sub-title", [
+                                _vm._v(
+                                  "Fecha de Nacimiento: " +
+                                    _vm._s(_vm.perfil_usuario.fecha_nac)
+                                )
+                              ]),
                               _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "text-xs-center" },
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        slot: "activador",
-                                        color: "info"
-                                      },
-                                      on: { click: _vm.actualizarServicio },
-                                      slot: "activador"
-                                    },
-                                    [_vm._v("Ver")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-dialog",
-                                    {
-                                      attrs: { width: "500" },
-                                      model: {
-                                        value: _vm.dialog,
-                                        callback: function($$v) {
-                                          _vm.dialog = $$v
-                                        },
-                                        expression: "dialog"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "v-card",
-                                        {
-                                          staticClass: "mx-auto",
-                                          attrs: {
-                                            color: "grey lighten-4",
-                                            "max-width": "600"
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "v-img",
-                                            {
-                                              attrs: {
-                                                "aspect-ratio": 16 / 9,
-                                                src:
-                                                  "https://cdn.vuetifyjs.com/images/cards/kitchen.png"
-                                              }
-                                            },
-                                            [
-                                              _c("v-expand-transition", [
-                                                hover
-                                                  ? _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text",
-                                                        staticStyle: {
-                                                          height: "100%"
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "$" +
-                                                            _vm._s(
-                                                              _vm.servicio
-                                                                .precio_servicio
-                                                            )
-                                                        )
-                                                      ]
-                                                    )
-                                                  : _vm._e()
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-card-text",
-                                            {
-                                              staticClass: "pt-4",
-                                              staticStyle: {
-                                                position: "relative"
-                                              }
-                                            },
-                                            [
-                                              !_vm.auth
-                                                ? _c(
-                                                    "v-btn",
-                                                    {
-                                                      staticClass:
-                                                        "white--text",
-                                                      attrs: {
-                                                        absolute: "",
-                                                        color: "orange",
-                                                        fab: "",
-                                                        large: "",
-                                                        right: "",
-                                                        top: ""
-                                                      },
-                                                      on: {
-                                                        click: _vm.registro
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "add_shopping_cart"
-                                                        )
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              _vm.usuario.tipo_usuario ==
-                                                "secretaria" &&
-                                              !_vm.estaContratado
-                                                ? _c(
-                                                    "v-btn",
-                                                    {
-                                                      staticClass:
-                                                        "white--text",
-                                                      attrs: {
-                                                        absolute: "",
-                                                        color: "orange",
-                                                        fab: "",
-                                                        large: "",
-                                                        right: "",
-                                                        top: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          _vm.$router.push({
-                                                            name:
-                                                              "secretariaContratar",
-                                                            params: {
-                                                              servicio:
-                                                                _vm.servicio
-                                                            }
-                                                          })
-                                                        }
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "add_shopping_cart"
-                                                        )
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              _vm.usuario.tipo_usuario ==
-                                                "cliente" && !_vm.estaContratado
-                                                ? _c(
-                                                    "v-btn",
-                                                    {
-                                                      staticClass:
-                                                        "white--text",
-                                                      attrs: {
-                                                        absolute: "",
-                                                        color: "orange",
-                                                        fab: "",
-                                                        large: "",
-                                                        right: "",
-                                                        top: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          _vm.$router.push({
-                                                            name:
-                                                              "clienteContratar",
-                                                            params: {
-                                                              servicio:
-                                                                _vm.servicio
-                                                            }
-                                                          })
-                                                        }
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "add_shopping_cart"
-                                                        )
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              _vm.usuario.tipo_usuario ==
-                                                "admin" && !_vm.estaContratado
-                                                ? _c(
-                                                    "v-btn",
-                                                    {
-                                                      staticClass:
-                                                        "white--text",
-                                                      attrs: {
-                                                        absolute: "",
-                                                        color: "orange",
-                                                        fab: "",
-                                                        large: "",
-                                                        right: "",
-                                                        top: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          _vm.$router.push({
-                                                            name:
-                                                              "adminContratar",
-                                                            params: {
-                                                              servicio:
-                                                                _vm.servicio
-                                                            }
-                                                          })
-                                                        }
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "add_shopping_cart"
-                                                        )
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              !_vm.usuario.tipo_usuario
-                                                ? _c("v-btn", {
-                                                    staticClass: "white--text",
-                                                    attrs: {
-                                                      absolute: "",
-                                                      color: "orange",
-                                                      fab: "",
-                                                      large: "",
-                                                      right: "",
-                                                      top: ""
-                                                    },
-                                                    on: { click: _vm.registro }
-                                                  })
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "font-weight-light grey--text title mb-2"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      _vm.servicio.tags_servicio
-                                                    )
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "h3",
-                                                {
-                                                  staticClass:
-                                                    "display-1 font-weight-light orange--text mb-2"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      _vm.servicio
-                                                        .nombre_servicio
-                                                    )
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "font-weight-light title mb-2"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                    " +
-                                                      _vm._s(
-                                                        _vm.servicio
-                                                          .descripcion_servicio
-                                                      ) +
-                                                      "\n                    "
-                                                  ),
-                                                  _c("br"),
-                                                  _vm._v(" "),
-                                                  _c("br"),
-                                                  _vm._v(
-                                                    "\n                    Medios de Pago: " +
-                                                      _vm._s(
-                                                        _vm.servicio.tipo_pago
-                                                      ) +
-                                                      "\n                    "
-                                                  ),
-                                                  _c("br"),
-                                                  _vm._v(" "),
-                                                  _c("br"),
-                                                  _vm._v(
-                                                    "\n                    Ubicación: " +
-                                                      _vm._s(
-                                                        _vm.servicio.ubicacion
-                                                      ) +
-                                                      "\n                    "
-                                                  ),
-                                                  _c("br"),
-                                                  _vm._v(" "),
-                                                  _c("v-divider"),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-layout",
-                                                    [
-                                                      _vm._v(
-                                                        "\n                      Disponible: " +
-                                                          _vm._s(
-                                                            _vm.servicio
-                                                              .fecha_publicacion_se
-                                                          ) +
-                                                          " - " +
-                                                          _vm._s(
-                                                            _vm.servicio
-                                                              .fecha_finalizacion_se
-                                                          ) +
-                                                          "\n                      "
-                                                      ),
-                                                      _c("br"),
-                                                      _vm._v(" "),
-                                                      _c("br"),
-                                                      _vm._v(" "),
-                                                      _c("v-spacer")
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-layout",
-                                            {
-                                              staticClass: "ml-3",
-                                              attrs: {
-                                                "justify-start": "",
-                                                row: "",
-                                                "fill-height": ""
-                                              }
-                                            },
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("thumb_up_alt")
-                                              ]),
-                                              _vm._v(
-                                                "\n                  " +
-                                                  _vm._s(
-                                                    _vm.servicio.me_gusta
-                                                  ) +
-                                                  "\n                  "
-                                              ),
-                                              _c(
-                                                "v-icon",
-                                                { staticClass: "ml-5" },
-                                                [_vm._v("thumb_down_alt")]
-                                              ),
-                                              _vm._v(
-                                                "\n                  " +
-                                                  _vm._s(
-                                                    _vm.servicio.no_me_gusta
-                                                  ) +
-                                                  "\n                "
-                                              )
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "layout row reverse fill-height mr-2"
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                  " +
-                                                  _vm._s(_vm.servicio.visitas) +
-                                                  "\n                  "
-                                              ),
-                                              _c("div", {
-                                                staticClass: "ml-1"
-                                              }),
-                                              _vm._v(" "),
-                                              _c("v-icon", [
-                                                _vm._v("visibility")
-                                              ])
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
+                              _c("v-list-tile-sub-title", [
+                                _vm._v(
+                                  "Domicilio: " +
+                                    _vm._s(_vm.perfil_usuario.domicilio_usuario)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-list-tile-sub-title", [
+                                _vm._v(
+                                  "Numero de teléfono: " +
+                                    _vm._s(_vm.perfil_usuario.telefono)
+                                )
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { attrs: { avatar: "" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _vm._v("Datos Usuario:")
+                              ]),
+                              _vm._v(" "),
+                              _c("v-list-tile-sub-title", [
+                                _vm._v(
+                                  "Nombre de Usuario: " +
+                                    _vm._s(_vm.perfil_usuario.alias)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-list-tile-sub-title", [
+                                _vm._v(
+                                  "Tipo de Usuario: " +
+                                    _vm._s(_vm.perfil_usuario.tipo_usuario)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-list-tile-sub-title", [
+                                _vm._v(
+                                  "Correo Electrónico: " +
+                                    _vm._s(_vm.perfil_usuario.email)
+                                )
+                              ])
                             ],
                             1
                           )
@@ -75429,48 +75685,164 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
                   _c(
-                    "v-layout",
-                    {
-                      staticClass: "ml-3",
-                      attrs: { "justify-start": "", row: "", "fill-height": "" }
-                    },
+                    "v-list",
+                    { attrs: { "three-line": "", subheader: "" } },
                     [
-                      _c("v-icon", [_vm._v("thumb_up_alt")]),
-                      _vm._v(
-                        "\n      " + _vm._s(_vm.servicio.me_gusta) + "\n      "
+                      _c("v-subheader", [_vm._v("Servicios publicados")]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { attrs: { avatar: "" } },
+                        [
+                          _c("v-list-tile-action"),
+                          _vm._v(" "),
+                          _c(
+                            "v-data-table",
+                            {
+                              attrs: {
+                                headers: _vm.headers,
+                                items: _vm.serviciosUsuario,
+                                "hide-actions": ""
+                              },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "items",
+                                  fn: function(props) {
+                                    return [
+                                      _c(
+                                        "v-list-tile-content",
+                                        [
+                                          _c(
+                                            "v-list-tile-title",
+                                            [
+                                              _c(
+                                                "v-layout",
+                                                {
+                                                  on: { click: _vm.verServicio }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "Nombre: " +
+                                                      _vm._s(
+                                                        props.item
+                                                          .nombre_servicio
+                                                      )
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-tile-sub-title",
+                                            [
+                                              _c("v-layout", [
+                                                _vm._v(
+                                                  "Descripción: " +
+                                                    _vm._s(
+                                                      props.item
+                                                        .descripcion_servicio
+                                                    )
+                                                )
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c("br")
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  }
+                                }
+                              ])
+                            },
+                            [
+                              _c(
+                                "template",
+                                { slot: "no-data" },
+                                [
+                                  _c("v-list-tile-title", [
+                                    _vm._v(
+                                      "Este usuario aún no ha publicado servicios"
+                                    )
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
                       ),
-                      _c("v-icon", { staticClass: "ml-5" }, [
-                        _vm._v("thumb_down_alt")
-                      ]),
-                      _vm._v(
-                        "\n      " + _vm._s(_vm.servicio.no_me_gusta) + "\n    "
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { attrs: { avatar: "" } },
+                        [
+                          _c("v-list-tile-action"),
+                          _vm._v(" "),
+                          _c("v-list-tile-content")
+                        ],
+                        1
                       )
                     ],
                     1
-                  ),
-                  _vm._v(" "),
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-footer",
+                { attrs: { dark: "", height: "auto" } },
+                [
                   _c(
-                    "div",
-                    { staticClass: "layout row reverse fill-height mr-2" },
+                    "v-card",
+                    {
+                      staticClass: "indigo lighten-1 whitetext text-xs-center",
+                      attrs: { flat: "", tile: "" }
+                    },
                     [
-                      _vm._v(
-                        "\n      " + _vm._s(_vm.servicio.visitas) + "\n      "
-                      ),
-                      _c("div", { staticClass: "ml-1" }),
+                      _c("v-card-text"),
                       _vm._v(" "),
-                      _c("v-icon", [_vm._v("visibility")])
+                      _c("v-card-text", { staticClass: "whitetext pt-0" }, [
+                        _vm._v(
+                          "********************************************************************************* Copyright © 1999-2018 - Venta de Servicios Chile Ltda - Trabaja con nosotros - Términos y condiciones - Políticas de privacidadAyuda. **********************************************************************************"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c("v-card-text", { staticClass: "white--text" }, [
+                        _vm._v("\n            ©2018 —\n            "),
+                        _c("strong", [_vm._v("Venta de Servicios")])
+                      ])
                     ],
                     1
                   )
                 ],
                 1
               )
-            : _vm._e()
-        }
-      }
-    ])
-  })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -81517,18 +81889,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    this.initialize();
+  },
+
   data: function data() {
     return {
-      created: function created() {
-        this.initialize();
-      }
+      usuario: {},
+      usuarios: [],
+      servicios: [],
+      headers: [{ text: "Nombre Servicio", align: "left", value: "nombre_servicio" }, { text: "Descripción", value: "descripcion_servicio" }]
     };
   },
   methods: {
     initialize: function initialize() {
       this.cargarUsuarios();
+      this.cargarServicios();
       this.auth();
     },
     cargarUsuarios: function cargarUsuarios() {
@@ -81555,6 +81940,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (error) {
         console.log(error);
       });
+    },
+    cargarServicios: function cargarServicios() {
+      var _this3 = this;
+
+      var url = "/serviciosUsuario";
+      axios.get(url).then(function (response) {
+        _this3.servicios = response.data;
+        console.log(response);
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   }
 });
@@ -81573,11 +81969,20 @@ var render = function() {
     [
       _c(
         "v-card",
+        { attrs: { width: "100%" } },
         [
           _c(
             "v-toolbar",
-            { attrs: { dark: "", color: "primary", "full-width": "" } },
-            [_c("v-toolbar-title"), _vm._v(" "), _c("v-spacer")],
+            { attrs: { dark: "", color: "primary" } },
+            [
+              _c("v-icon", [_vm._v("person")]),
+              _vm._v(" "),
+              _c("v-toolbar-title", [
+                _vm._v(_vm._s(_vm.usuario.nombre_usuario))
+              ]),
+              _vm._v(" "),
+              _c("v-spacer")
+            ],
             1
           ),
           _vm._v(" "),
@@ -81585,7 +81990,7 @@ var render = function() {
             "v-list",
             { attrs: { "three-line": "", subheader: "" } },
             [
-              _c("v-subheader", [_vm._v("User Controls")]),
+              _c("v-subheader"),
               _vm._v(" "),
               _c(
                 "v-list-tile",
@@ -81594,11 +81999,28 @@ var render = function() {
                   _c(
                     "v-list-tile-content",
                     [
-                      _c("v-list-tile-title", [_vm._v("Content filtering")]),
+                      _c("v-list-tile-title", [_vm._v("Datos Personales:")]),
+                      _vm._v(" "),
+                      _c("v-list-tile-sub-title", [
+                        _vm._v("Rut: " + _vm._s(_vm.usuario.rut_usuario))
+                      ]),
                       _vm._v(" "),
                       _c("v-list-tile-sub-title", [
                         _vm._v(
-                          "Set the content filtering level to restrict apps that can be downloaded"
+                          "Fecha de Nacimiento: " +
+                            _vm._s(_vm.usuario.fecha_nac)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-list-tile-sub-title", [
+                        _vm._v(
+                          "Domicilio: " + _vm._s(_vm.usuario.domicilio_usuario)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-list-tile-sub-title", [
+                        _vm._v(
+                          "Numero de teléfono: " + _vm._s(_vm.usuario.telefono)
                         )
                       ])
                     ],
@@ -81608,6 +82030,8 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
               _c(
                 "v-list-tile",
                 { attrs: { avatar: "" } },
@@ -81615,11 +82039,23 @@ var render = function() {
                   _c(
                     "v-list-tile-content",
                     [
-                      _c("v-list-tile-title", [_vm._v("Password")]),
+                      _c("v-list-tile-title", [_vm._v("Datos Usuario:")]),
                       _vm._v(" "),
                       _c("v-list-tile-sub-title", [
                         _vm._v(
-                          "Require password for purchase or use password to restrict purchase"
+                          "Nombre de Usuario: " + _vm._s(_vm.usuario.alias)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-list-tile-sub-title", [
+                        _vm._v(
+                          "Tipo de Usuario: " + _vm._s(_vm.usuario.tipo_usuario)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-list-tile-sub-title", [
+                        _vm._v(
+                          "Correo Electrónico: " + _vm._s(_vm.usuario.email)
                         )
                       ])
                     ],
@@ -81638,40 +82074,88 @@ var render = function() {
             "v-list",
             { attrs: { "three-line": "", subheader: "" } },
             [
-              _c("v-subheader", [_vm._v("General")]),
+              _c("v-subheader", [_vm._v("Servicios publicados")]),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c("br"),
               _vm._v(" "),
               _c(
                 "v-list-tile",
                 { attrs: { avatar: "" } },
                 [
-                  _c(
-                    "v-list-tile-action",
-                    [
-                      _c("v-checkbox", {
-                        model: {
-                          value: _vm.notifications,
-                          callback: function($$v) {
-                            _vm.notifications = $$v
-                          },
-                          expression: "notifications"
-                        }
-                      })
-                    ],
-                    1
-                  ),
+                  _c("v-list-tile-action"),
                   _vm._v(" "),
                   _c(
-                    "v-list-tile-content",
-                    [
-                      _c("v-list-tile-title", [_vm._v("Notifications")]),
-                      _vm._v(" "),
-                      _c("v-list-tile-sub-title", [
-                        _vm._v(
-                          "Notify me about updates to apps or games that I downloaded"
-                        )
+                    "v-data-table",
+                    {
+                      attrs: {
+                        headers: _vm.headers,
+                        items: _vm.servicios,
+                        "hide-actions": ""
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "items",
+                          fn: function(props) {
+                            return [
+                              _c(
+                                "v-list-tile-content",
+                                [
+                                  _c(
+                                    "v-list-tile-title",
+                                    [
+                                      _c(
+                                        "v-layout",
+                                        { on: { click: _vm.verServicio } },
+                                        [
+                                          _vm._v(
+                                            "Nombre: " +
+                                              _vm._s(props.item.nombre_servicio)
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-tile-sub-title",
+                                    [
+                                      _c("v-layout", [
+                                        _vm._v(
+                                          "Descripción: " +
+                                            _vm._s(
+                                              props.item.descripcion_servicio
+                                            )
+                                        )
+                                      ])
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("br")
+                                ],
+                                1
+                              )
+                            ]
+                          }
+                        }
                       ])
+                    },
+                    [
+                      _c(
+                        "template",
+                        { slot: "no-data" },
+                        [
+                          _c("v-list-tile-title", [
+                            _vm._v("Este usuario aún no ha publicado servicios")
+                          ])
+                        ],
+                        1
+                      )
                     ],
-                    1
+                    2
                   )
                 ],
                 1
@@ -81681,70 +82165,9 @@ var render = function() {
                 "v-list-tile",
                 { attrs: { avatar: "" } },
                 [
-                  _c(
-                    "v-list-tile-action",
-                    [
-                      _c("v-checkbox", {
-                        model: {
-                          value: _vm.sound,
-                          callback: function($$v) {
-                            _vm.sound = $$v
-                          },
-                          expression: "sound"
-                        }
-                      })
-                    ],
-                    1
-                  ),
+                  _c("v-list-tile-action"),
                   _vm._v(" "),
-                  _c(
-                    "v-list-tile-content",
-                    [
-                      _c("v-list-tile-title", [_vm._v("Sound")]),
-                      _vm._v(" "),
-                      _c("v-list-tile-sub-title", [
-                        _vm._v(
-                          "Auto-update apps at any time. Data charges may apply"
-                        )
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-list-tile",
-                { attrs: { avatar: "" } },
-                [
-                  _c(
-                    "v-list-tile-action",
-                    [
-                      _c("v-checkbox", {
-                        model: {
-                          value: _vm.widgets,
-                          callback: function($$v) {
-                            _vm.widgets = $$v
-                          },
-                          expression: "widgets"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile-content",
-                    [
-                      _c("v-list-tile-title", [_vm._v("Auto-add widgets")]),
-                      _vm._v(" "),
-                      _c("v-list-tile-sub-title", [
-                        _vm._v("Automatically add home screen widgets")
-                      ])
-                    ],
-                    1
-                  )
+                  _c("v-list-tile-content")
                 ],
                 1
               )
@@ -81766,29 +82189,11 @@ var render = function() {
               attrs: { flat: "", tile: "" }
             },
             [
-              _c(
-                "v-card-text",
-                _vm._l(_vm.icons, function(icon) {
-                  return _c(
-                    "v-btn",
-                    {
-                      key: icon,
-                      staticClass: "mx-3 white--text",
-                      attrs: { icon: "" }
-                    },
-                    [
-                      _c("v-icon", { attrs: { size: "24px" } }, [
-                        _vm._v(_vm._s(icon))
-                      ])
-                    ],
-                    1
-                  )
-                })
-              ),
+              _c("v-card-text"),
               _vm._v(" "),
               _c("v-card-text", { staticClass: "white--text pt-0" }, [
                 _vm._v(
-                  "Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
+                  "********************************************************************************* Copyright © 1999-2018 - Venta de Servicios Chile Ltda - Trabaja con nosotros - Términos y condiciones - Políticas de privacidadAyuda. **********************************************************************************"
                 )
               ]),
               _vm._v(" "),
@@ -81796,7 +82201,7 @@ var render = function() {
               _vm._v(" "),
               _c("v-card-text", { staticClass: "white--text" }, [
                 _vm._v("\n        ©2018 —\n        "),
-                _c("strong", [_vm._v("Vuetify")])
+                _c("strong", [_vm._v("Venta de Servicios")])
               ])
             ],
             1
@@ -85390,6 +85795,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -85399,7 +85826,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       cuotas: [],
       tipo_pago_elegido: "",
       dialog: false,
-      headers: [{ text: "Nombre Servicio", align: "left", value: "nombre" }, { text: "Descripción", value: "descripcion_servicio" }, { text: "Estado", value: "estado" }, { text: "Fecha Publicación", value: "fecha_publicacion_se" }, { text: "Fecha Finalización", value: "fecha_finalizacion_se" }, { text: "Tags Servicio", value: "tags_servicio" }, { text: "Tipo de Pago", value: "tipo_pago" }, { text: "Precio Servicio", value: "precio_servicio" }, { text: "Reputación", value: "reputacion" }, { text: "Actions", value: "name", sortable: false }],
+      menu: false,
+      menu2: false,
+      editar: false,
+      headers: [{ text: "Nombre Servicio", align: "left", value: "nombre" }, { text: "Descripción", value: "descripcion_servicio" }, { text: "Estado", value: "estado" }, { text: "Fecha Publicación", value: "fecha_publicacion_se" }, { text: "Fecha Finalización", value: "fecha_finalizacion_se" }, { text: "Tags Servicio", value: "tags_servicio" }, { text: "Tipo de Pago", value: "tipo_pago" }, { text: "Precio Servicio", value: "precio_servicio" }, { text: "Me Gusta", value: "me_gusta" }, { text: "No me Gusta", value: "no_me_gusta" }, { text: "Actions", value: "name", sortable: false }],
       servicios: [],
       editedIndex: -1,
       editedItem: {
@@ -85457,6 +85887,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     initialize: function initialize() {
       this.cargarServicios();
+      this.cargarMetodosPagos();
+    },
+    crear: function crear() {
+      this.editar = false;
+      this.dialog = true;
     },
     editItem: function editItem(item) {
       this.editedIndex = this.servicios.indexOf(item);
@@ -85467,6 +85902,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var id = item.id;
       confirm("Estas seguro de querer eliminar este Servicio?") && this.eliminarServicio(id);
       this.cargarServicios();
+      this.editedIndex = this.servicios.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+      this.editar = true;
+      this.tipo_pago_elegido = item.tipo_pago;
+      console.log("servicio", item);
     },
     close: function close() {
       var _this = this;
@@ -85486,59 +85927,77 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.cargarServicios();
       this.close();
     },
-    cargarServicios: function cargarServicios() {
+    cargarMetodosPagos: function cargarMetodosPagos() {
       var _this2 = this;
+
+      var url = "/metodosPagos";
+      axios.get(url).then(function (response) {
+        _this2.tipo_pago = response.data;
+        console.log(response);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    cargarServicios: function cargarServicios() {
+      var _this3 = this;
 
       var url = "/serviciosActivos";
       axios.get(url).then(function (response) {
-        _this2.servicios = response.data;
+        _this3.servicios = response.data;
         console.log(response);
       }).catch(function (error) {
         console.log(error);
       });
     },
     guardarServicio: function guardarServicio() {
-      var _this3 = this;
+      var _this4 = this;
 
       var url = "/servicios/";
       axios.post(url, {
         nombre_servicio: this.editedItem.nombre_servicio,
         descripcion_servicio: this.editedItem.descripcion_servicio,
-        estado: this.editedItem.estado,
+        estado: "inactivo",
         fecha_publicacion_se: this.editedItem.fecha_publicacion_se,
         fecha_finalizacion_se: this.editedItem.fecha_finalizacion_se,
         tags_servicio: this.editedItem.tags_servicio,
-        visitas: this.editedItem.visitas,
+        visitas: 0,
         creador: this.editedItem.creador,
-        tipo_pago: this.editedItem.tipo_pago,
+        tipo_pago: this.tipo_pago_elegido.tipo_pago,
         precio_servicio: this.editedItem.precio_servicio,
-        me_gusta: this.editedItem.me_gusta,
-        no_me_gusta: this.editedItem.no_me_gusta,
-        ubicacion: this.editedItem.ubicacion
+        me_gusta: 0,
+        no_me_gusta: 0,
+        ubicacion: this.editedItem.ubicacion,
+        denunciado: this.editedIndex.denunciado
       }).then(function (response) {
         console.log(response);
-        _this3.cargarServicios();
+        _this4.cargarServicios();
+        _this4.close();
       }).catch(function (error) {
         console.log(error);
       });
     },
     actualizarServicio: function actualizarServicio() {
+      var _this5 = this;
+
       var url = "/servicios/" + this.editedItem.id;
       axios.put(url, {
         nombre_servicio: this.editedItem.nombre_servicio,
         descripcion_servicio: this.editedItem.descripcion_servicio,
-        estado: this.editedItem.estado,
+        estado: "inactivo",
         fecha_publicacion_se: this.editedItem.fecha_publicacion_se,
         fecha_finalizacion_se: this.editedItem.fecha_finalizacion_se,
         tags_servicio: this.editedItem.tags_servicio,
-        visitas: this.editedItem.visitas,
+        visitas: 0,
         creador: this.editedItem.creador,
-        tipo_pago: this.editedItem.tipo_pago,
+        tipo_pago: this.tipo_pago_elegido,
         precio_servicio: this.editedItem.precio_servicio,
         me_gusta: this.editedItem.me_gusta,
         no_me_gusta: this.editedItem.no_me_gusta,
-        ubicacion: this.editedItem.ubicacion
+        ubicacion: this.editedItem.ubicacion,
+        denunciado: this.editedItem.denunciado
       }).then(function (response) {
+        _this5.cargarServicios();
+        _this5.close();
         console.log(response);
       }).catch(function (error) {
         console.log(error);
@@ -85553,11 +86012,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     cargarMetodosPago: function cargarMetodosPago() {
-      var _this4 = this;
+      var _this6 = this;
 
       var url = "/metodosPagos";
       axios.get(url).then(function (response) {
-        _this4.tipo_pago = response.data;
+        _this6.tipo_pago = response.data;
         console.log(response);
       }).catch(function (error) {
         console.log(error);
@@ -85596,11 +86055,7 @@ var render = function() {
             dark: "",
             fixed: ""
           },
-          on: {
-            click: function($event) {
-              _vm.dialog = !_vm.dialog
-            }
-          }
+          on: { click: _vm.crear }
         },
         [_c("v-icon", [_vm._v("add")])],
         1
@@ -85685,62 +86140,150 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "v-flex",
-                            { attrs: { xs12: "" } },
+                            { attrs: { xs12: "", sm6: "", md4: "" } },
                             [
-                              _c("v-text-field", {
-                                attrs: { label: "Estado" },
-                                model: {
-                                  value: _vm.editedItem.estado,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.editedItem, "estado", $$v)
+                              _c(
+                                "v-menu",
+                                {
+                                  attrs: {
+                                    "close-on-content-click": false,
+                                    "nudge-right": 40,
+                                    lazy: "",
+                                    transition: "scale-transition",
+                                    "offset-y": "",
+                                    "full-width": "",
+                                    "min-width": "290px"
                                   },
-                                  expression: "editedItem.estado"
-                                }
-                              })
+                                  model: {
+                                    value: _vm.menu,
+                                    callback: function($$v) {
+                                      _vm.menu = $$v
+                                    },
+                                    expression: "menu"
+                                  }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      slot: "activator",
+                                      label: "Fecha de publicación",
+                                      "prepend-icon": "event",
+                                      readonly: ""
+                                    },
+                                    slot: "activator",
+                                    model: {
+                                      value:
+                                        _vm.editedItem.fecha_publicacion_se,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedItem,
+                                          "fecha_publicacion_se",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedItem.fecha_publicacion_se"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-date-picker", {
+                                    on: {
+                                      input: function($event) {
+                                        _vm.menu = false
+                                      }
+                                    },
+                                    model: {
+                                      value:
+                                        _vm.editedItem.fecha_publicacion_se,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedItem,
+                                          "fecha_publicacion_se",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedItem.fecha_publicacion_se"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
                             ],
                             1
                           ),
                           _vm._v(" "),
                           _c(
                             "v-flex",
-                            { attrs: { xs12: "" } },
+                            { attrs: { xs12: "", sm6: "", md4: "" } },
                             [
-                              _c("v-text-field", {
-                                attrs: { label: "Fecha de publicacion" },
-                                model: {
-                                  value: _vm.editedItem.fecha_publicacion_se,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.editedItem,
-                                      "fecha_publicacion_se",
-                                      $$v
-                                    )
+                              _c(
+                                "v-menu",
+                                {
+                                  attrs: {
+                                    "close-on-content-click": false,
+                                    "nudge-right": 40,
+                                    lazy: "",
+                                    transition: "scale-transition",
+                                    "offset-y": "",
+                                    "full-width": "",
+                                    "min-width": "290px"
                                   },
-                                  expression: "editedItem.fecha_publicacion_se"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: { label: "Fecha de finalización" },
-                                model: {
-                                  value: _vm.editedItem.fecha_finalizacion_se,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.editedItem,
-                                      "fecha_finalizacion_se",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "editedItem.fecha_finalizacion_se"
-                                }
-                              })
+                                  model: {
+                                    value: _vm.menu2,
+                                    callback: function($$v) {
+                                      _vm.menu2 = $$v
+                                    },
+                                    expression: "menu2"
+                                  }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      slot: "activator",
+                                      label: "Fecha de Finalización",
+                                      "prepend-icon": "event",
+                                      readonly: ""
+                                    },
+                                    slot: "activator",
+                                    model: {
+                                      value:
+                                        _vm.editedItem.fecha_finalizacion_se,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedItem,
+                                          "fecha_finalizacion_se",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedItem.fecha_finalizacion_se"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-date-picker", {
+                                    on: {
+                                      input: function($event) {
+                                        _vm.menu2 = false
+                                      }
+                                    },
+                                    model: {
+                                      value:
+                                        _vm.editedItem.fecha_finalizacion_se,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedItem,
+                                          "fecha_finalizacion_se",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedItem.fecha_finalizacion_se"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
                             ],
                             1
                           ),
@@ -85814,40 +86357,6 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _vm.tipo_pago_elegido.tipo_pago == "Tarjeta"
-                            ? _c(
-                                "v-flex",
-                                { attrs: { xs12: "" } },
-                                [
-                                  _c("v-select", {
-                                    attrs: {
-                                      label: "Cantidad de Cuotas",
-                                      items: _vm.cuotas
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: { label: "Visitas" },
-                                model: {
-                                  value: _vm.editedItem.visitas,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.editedItem, "visitas", $$v)
-                                  },
-                                  expression: "editedItem.visitas"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
                           _c(
                             "v-flex",
                             { attrs: { xs12: "" } },
@@ -85884,23 +86393,25 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: { label: "Reputación" },
-                                model: {
-                                  value: _vm.editedItem.reputacion,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.editedItem, "reputacion", $$v)
-                                  },
-                                  expression: "editedItem.reputacion"
-                                }
-                              })
-                            ],
-                            1
-                          )
+                          _vm.editar
+                            ? _c(
+                                "v-flex",
+                                { attrs: { xs12: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "visitas" },
+                                    model: {
+                                      value: _vm.editedItem.visitas,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.editedItem, "visitas", $$v)
+                                      },
+                                      expression: "editedItem.visitas"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e()
                         ],
                         1
                       )
@@ -85929,14 +86440,27 @@ var render = function() {
                     [_vm._v("Cancelar")]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "blue darken-1", flat: "" },
-                      on: { click: _vm.guardarServicio }
-                    },
-                    [_vm._v("Guardar")]
-                  )
+                  !_vm.editar
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "blue darken-1", flat: "" },
+                          on: { click: _vm.guardarServicio }
+                        },
+                        [_vm._v("Guardar")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.editar
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "blue darken-1", flat: "" },
+                          on: { click: _vm.actualizarServicio }
+                        },
+                        [_vm._v("Editar")]
+                      )
+                    : _vm._e()
                 ],
                 1
               )

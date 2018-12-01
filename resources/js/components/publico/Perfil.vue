@@ -90,11 +90,7 @@ export default {
   data: () => ({
     usuario: {},
     usuarios: [],
-    servicios: [],
-    headers: [
-      { text: "Nombre Servicio", align: "left", value: "nombre_servicio" },
-      { text: "Descripción", value: "descripcion_servicio" }
-    ]
+    servicios: []
   }),
   methods: {
     initialize() {
@@ -116,18 +112,6 @@ export default {
     },
     redirect(link) {
       this.$router.push(link);
-    },
-    auth() {
-      var url = "/auth";
-      axios
-        .post(url)
-        .then(response => {
-          this.usuario = response.data;
-          console.log("todo bien", response);
-        })
-        .catch(error => {
-          console.log(error);
-        });
     },
     cargarServicios() {
       var url = "/serviciosUsuario";

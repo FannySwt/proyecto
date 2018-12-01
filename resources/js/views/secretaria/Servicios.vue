@@ -1,6 +1,6 @@
 <template>
   <v-container fluid fill-height>
-    <v-btn fab bottom right color="pink" dark fixed @click="dialog = !dialog">
+    <v-btn fab bottom right color="pink" dark fixed @click="crear">
       <v-icon>add</v-icon>
     </v-btn>
     <v-dialog v-model="dialog" max-width="500px">
@@ -17,20 +17,47 @@
               <v-flex xs12>
                 <v-text-field v-model="editedItem.descripcion_servicio" label="Descripción"></v-text-field>
               </v-flex>
-              <v-flex xs12>
-                <v-text-field v-model="editedItem.estado" label="Estado"></v-text-field>
+              <v-flex xs12 sm6 md4>
+                <v-menu
+                  :close-on-content-click="false"
+                  v-model="menu"
+                  :nudge-right="40"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="editedItem.fecha_publicacion_se"
+                    label="Fecha de publicación"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker v-model="editedItem.fecha_publicacion_se" @input="menu = false"></v-date-picker>
+                </v-menu>
               </v-flex>
-              <v-flex xs12>
-                <v-text-field
-                  v-model="editedItem.fecha_publicacion_se"
-                  label="Fecha de publicacion"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field
-                  v-model="editedItem.fecha_finalizacion_se"
-                  label="Fecha de finalización"
-                ></v-text-field>
+              <v-flex xs12 sm6 md4>
+                <v-menu
+                  :close-on-content-click="false"
+                  v-model="menu2"
+                  :nudge-right="40"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="editedItem.fecha_finalizacion_se"
+                    label="Fecha de Finalización"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker v-model="editedItem.fecha_finalizacion_se" @input="menu2 = false"></v-date-picker>
+                </v-menu>
               </v-flex>
               <v-flex xs12>
                 <v-text-field v-model="editedItem.tags_servicio" label="Tags"></v-text-field>
@@ -49,20 +76,14 @@
               <v-flex xs12>
                 <v-text-field v-model="editedItem.precio_servicio" label="Precio"></v-text-field>
               </v-flex>
-              <v-flex xs12 v-if="tipo_pago_elegido.tipo_pago == 'Tarjeta'">
-                <v-select label="Cantidad de Cuotas" :items="cuotas"></v-select>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field v-model="editedItem.visitas" label="Visitas"></v-text-field>
-              </v-flex>
               <v-flex xs12>
                 <v-text-field v-model="editedItem.creador" label="Creador del servicio"></v-text-field>
               </v-flex>
               <v-flex xs12>
                 <v-text-field v-model="editedItem.ubicacion" label="Ubicación"></v-text-field>
               </v-flex>
-              <v-flex xs12>
-                <v-text-field v-model="editedItem.reputacion" label="Reputación"></v-text-field>
+              <v-flex xs12 v-if="editar">
+                <v-text-field v-model="editedItem.visitas" label="visitas"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -70,7 +91,8 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click.native="close">Cancelar</v-btn>
-          <v-btn color="blue darken-1" flat @click="guardarServicio">Guardar</v-btn>
+          <v-btn v-if="!editar" color="blue darken-1" flat @click="guardarServicio">Guardar</v-btn>
+          <v-btn v-if="editar" color="blue darken-1" flat @click="actualizarServicio">Editar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -87,6 +109,9 @@ export default {
     cuotas: [],
     tipo_pago_elegido: "",
     dialog: false,
+    menu: false,
+    menu2: false,
+    editar: false,
     headers: [
       { text: "Nombre Servicio", align: "left", value: "nombre" },
       { text: "Descripción", value: "descripcion_servicio" },
@@ -96,7 +121,8 @@ export default {
       { text: "Tags Servicio", value: "tags_servicio" },
       { text: "Tipo de Pago", value: "tipo_pago" },
       { text: "Precio Servicio", value: "precio_servicio" },
-      { text: "Reputación", value: "reputacion" },
+      { text: "Me Gusta", value: "me_gusta" },
+      { text: "No me Gusta", value: "no_me_gusta" },
       { text: "Actions", value: "name", sortable: false }
     ],
     servicios: [],
@@ -154,8 +180,12 @@ export default {
   methods: {
     initialize() {
       this.cargarServicios();
+      this.cargarMetodosPagos();
     },
-
+    crear() {
+      this.editar = false;
+      this.dialog = true;
+    },
     editItem(item) {
       this.editedIndex = this.servicios.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -167,6 +197,12 @@ export default {
       confirm("Estas seguro de querer eliminar este Servicio?") &&
         this.eliminarServicio(id);
       this.cargarServicios();
+      this.editedIndex = this.servicios.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+      this.editar = true;
+      this.tipo_pago_elegido = item.tipo_pago;
+      console.log("servicio", item);
     },
 
     close() {
@@ -186,6 +222,18 @@ export default {
       this.cargarServicios();
       this.close();
     },
+    cargarMetodosPagos() {
+      var url = "/metodosPagos";
+      axios
+        .get(url)
+        .then(response => {
+          this.tipo_pago = response.data;
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     cargarServicios() {
       var url = "/serviciosActivos";
       axios
@@ -204,21 +252,23 @@ export default {
         .post(url, {
           nombre_servicio: this.editedItem.nombre_servicio,
           descripcion_servicio: this.editedItem.descripcion_servicio,
-          estado: this.editedItem.estado,
+          estado: "inactivo",
           fecha_publicacion_se: this.editedItem.fecha_publicacion_se,
           fecha_finalizacion_se: this.editedItem.fecha_finalizacion_se,
           tags_servicio: this.editedItem.tags_servicio,
-          visitas: this.editedItem.visitas,
+          visitas: 0,
           creador: this.editedItem.creador,
-          tipo_pago: this.editedItem.tipo_pago,
+          tipo_pago: this.tipo_pago_elegido.tipo_pago,
           precio_servicio: this.editedItem.precio_servicio,
-          me_gusta: this.editedItem.me_gusta,
-          no_me_gusta: this.editedItem.no_me_gusta,
-          ubicacion: this.editedItem.ubicacion
+          me_gusta: 0,
+          no_me_gusta: 0,
+          ubicacion: this.editedItem.ubicacion,
+          denunciado: this.editedIndex.denunciado
         })
         .then(response => {
           console.log(response);
           this.cargarServicios();
+          this.close();
         })
         .catch(error => {
           console.log(error);
@@ -230,19 +280,22 @@ export default {
         .put(url, {
           nombre_servicio: this.editedItem.nombre_servicio,
           descripcion_servicio: this.editedItem.descripcion_servicio,
-          estado: this.editedItem.estado,
+          estado: "inactivo",
           fecha_publicacion_se: this.editedItem.fecha_publicacion_se,
           fecha_finalizacion_se: this.editedItem.fecha_finalizacion_se,
           tags_servicio: this.editedItem.tags_servicio,
-          visitas: this.editedItem.visitas,
+          visitas: 0,
           creador: this.editedItem.creador,
-          tipo_pago: this.editedItem.tipo_pago,
+          tipo_pago: this.tipo_pago_elegido,
           precio_servicio: this.editedItem.precio_servicio,
           me_gusta: this.editedItem.me_gusta,
           no_me_gusta: this.editedItem.no_me_gusta,
-          ubicacion: this.editedItem.ubicacion
+          ubicacion: this.editedItem.ubicacion,
+          denunciado: this.editedItem.denunciado
         })
         .then(response => {
+          this.cargarServicios();
+          this.close();
           console.log(response);
         })
         .catch(error => {

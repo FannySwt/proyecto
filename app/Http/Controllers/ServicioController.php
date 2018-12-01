@@ -66,6 +66,11 @@ class ServicioController extends Controller
         return $user->Servicios;
     }
 
+    public function serviciosCreadosPorUsuario(User $usuario)
+    {
+        return $usuario->Servicios;
+    }
+
     public function guardarContrato(Request $request, Servicio $servicio, User $usuario){
         $usuario->ServiciosContratados()->save($servicio,
             ['fecha_contratacion' => $request->fecha_contratacion,

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Servicio;
 use App\Perfil_Secretaria;
 use App\Perfil_Cliente;
 use Illuminate\Http\Request;
@@ -127,7 +128,7 @@ class UserController extends Controller
      */
     public function show(User $usuario)
     {
-        //
+        return $usuario;
     }
 
     /**
