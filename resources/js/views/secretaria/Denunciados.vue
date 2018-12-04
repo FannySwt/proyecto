@@ -1,6 +1,6 @@
 <template>
   <v-container fluid fill-height>
-    <iterar v-on:recargar="cargarServicios" :denuncia="denuncia"></iterar>
+    <iterar v-on:recargar="cargarServicios"></iterar>
     <v-divider></v-divider>
   </v-container>
 </template>
@@ -15,7 +15,6 @@ export default {
     tipo_pago_elegido: "",
     dialog: false,
     servicios: [],
-    denuncia: [],
     headers: [
       { text: "Nombre Servicio", align: "left", value: "nombre" },
       { text: "Descripción", value: "descripcion_servicio" },
@@ -84,21 +83,7 @@ export default {
   methods: {
     initialize() {
       this.cargarServicios();
-      cargarDenuncias();
     },
-    cargarDenuncias() {
-      var url = "/comentariosDenuncia/" + this.servicios.id;
-      axios
-        .get(url)
-        .then(response => {
-          this.denuncia = response.data;
-          console.log("TOSOOODOOO", response);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-
     editItem(item) {
       this.editedIndex = this.servicios.indexOf(item);
       this.editedItem = Object.assign({}, item);

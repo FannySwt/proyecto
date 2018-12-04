@@ -11,6 +11,9 @@
       <v-flex slot="item" slot-scope="props" xs4>
         <servicios v-bind:servicio="props.item" v-on:recargar="cargarServicios"></servicios>
       </v-flex>
+      <template slot="no-data">
+        <div class="font-weight-light title mb-2 ml-5">Aún no haz contratado servicios.</div>
+      </template>
     </v-data-iterator>
   </v-container>
 </template>

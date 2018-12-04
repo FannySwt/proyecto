@@ -1,6 +1,6 @@
 <template>
-  <v-app id="inspire">
-    <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" height="100vh">
+  <v-app class="container fluid">
+    <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" height="100pv">
       <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="drawer" fixed app>
         <v-list dense>
           <template v-for="item in items">
@@ -85,6 +85,25 @@
           </v-layout>
         </v-container>
       </v-content>
+      <v-footer dark height="auto">
+        <v-card width="100%" flat tile class="indigo lighten-1 white--text text-xs-center">
+          <v-card-text>
+            <!--  <v-btn v-for="icon in icons" :key="icon" class="mx-3 white--text" icon>
+          <v-icon size="24px">{{ icon }}</v-icon>
+            </v-btn>-->
+          </v-card-text>
+
+          <v-card-text
+            class="white--text pt-0"
+          >*********************************************************************************************** Copyright © 1999-2018 - Venta de Servicios Chile Ltda - Trabaja con nosotros - Términos y condiciones - Políticas de privacidad - Ayuda. ***********************************************************************************************</v-card-text>
+
+          <v-divider></v-divider>
+          <v-card-text class="white--text">
+            &copy;2018 —
+            <strong>Venta de Servicios</strong>
+          </v-card-text>
+        </v-card>
+      </v-footer>
     </v-parallax>
   </v-app>
 </template>
@@ -116,6 +135,16 @@ export default {
         icon: "visibility",
         text: "Servicios Denunciados",
         link: "/secretaria/serviciosDenunciados"
+      },
+      {
+        icon: "search",
+        text: "Filtrar Ingresos",
+        link: "/secretaria/filtrar"
+      },
+      {
+        icon: "search",
+        text: "Filtrar Servicios",
+        link: "/secretaria/filtrarServicios "
       }
     ]
   }),

@@ -45,19 +45,19 @@ class ServicioController extends Controller
         }
 
         return $servicios;
+    }
+
+     public function filtrarServicios(Request $request){
+        $servicios = Servicio::where([
+            ['ubicacion', $request->ubicacion],
+            ['categoria_id', $request->categoria],
+            ['tipo_pago', $request->pago],
+            ['precio_servicio', '>=', $request->precioMinimo],
+            ['precio_servicio', '<=', $request->precioMaximo]
+        ])->get();
         
-        /*
-        return $servicios  = DB::table('servicio_user')
-        ->join('users', 'servicio_user.user_id', '=', 'users.id')
-        ->select(
-            'servicio_user.fecha_contratacion',
-            'servicio_user.fecha_fin_contratacion',
-            'servicio_user.descuento_tipo_cliente',
-            'servicio_user.tipo_pago',
-            'servicio_user.numero_tarjeta',
-            'servicio_user.numero_cuota',
-            'servicio_user.valor_cuota')->get();
-*/
+        return $servicios;
+     
     }
 
     public function serviciosUsuario()

@@ -2,11 +2,7 @@
   <div>
     <v-toolbar flat color="white">
       <v-toolbar-title>Categorías</v-toolbar-title>
-      <v-divider
-        class="mx-2"
-        inset
-        vertical
-      ></v-divider>
+      <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" max-width="500px">
         <v-btn slot="activator" color="primary" dark class="mb-2">Nueva Categoría</v-btn>
@@ -27,7 +23,10 @@
                   <v-text-field v-model="editedItem.estado_categoria" label="estado"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.cantidad_publicaciones" label="cantidad publicaciones"></v-text-field>
+                  <v-text-field
+                    v-model="editedItem.cantidad_publicaciones"
+                    label="cantidad publicaciones"
+                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedItem.edad_recomendada" label="edad recomendada"></v-text-field>
@@ -44,12 +43,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table
-      :headers="headers"
-      :items="categorias"
-      hide-actions
-      class="elevation-1"
-    >
+    <v-data-table :headers="headers" :items="categorias" hide-actions class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.nombre_categoria }}</td>
         <td class="text-xs-center">{{ props.item.descripcion_categoria }}</td>
@@ -57,19 +51,8 @@
         <td class="text-xs-center">{{ props.item.cantidad_publicaciones }}</td>
         <td class="text-xs-center">{{ props.item.edad_recomendada }}</td>
         <td class="justify-center align-center layout px-0">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(props.item)"
-          >
-            edit
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(props.item)"
-          >
-            delete
-          </v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
+          <v-icon small @click="deleteItem(props.item)">delete</v-icon>
         </td>
       </template>
       <template slot="no-data">
@@ -88,7 +71,7 @@ export default {
       { text: "Descripción Categoría", value: "descripcion_categoria" },
       { text: "Estado Categoría", value: "estado_categoria" },
       { text: "Cantidad Publicaciones", value: "cantidad_publicaciones" },
-      { text: "Edad Recomendada", value: "edad_recomendada"},
+      { text: "Edad Recomendada", value: "edad_recomendada" },
       { text: "Actions", value: "name", sortable: false }
     ],
 
@@ -99,14 +82,14 @@ export default {
       nombre_categoria: "",
       descripcion_categoria: "",
       cantidad_publicaciones: "",
-      edad_recomendada: "",
+      edad_recomendada: ""
     },
     defaultItem: {
       id: 0,
       nombre_categoria: "",
       descripcion_categoria: "",
       cantidad_publicaciones: "",
-      edad_recomendada: "",
+      edad_recomendada: ""
     }
   }),
 
@@ -181,7 +164,7 @@ export default {
           descripcion_categoria: this.editedItem.descripcion_categoria,
           estado_categoria: this.editedItem.estado_categoria,
           cantidad_publicaciones: this.editedItem.cantidad_publicaciones,
-          edad_recomendada: this.editedItem.edad_recomendada,
+          edad_recomendada: this.editedItem.edad_recomendada
         })
         .then(response => {
           console.log(response);
@@ -198,7 +181,7 @@ export default {
           descripcion_categoria: this.editedItem.descripcion_categoria,
           estado_categoria: this.editedItem.estado_categoria,
           cantidad_publicaciones: this.editedItem.cantidad_publicaciones,
-          edad_recomendada: this.editedItem.edad_recomendada,
+          edad_recomendada: this.editedItem.edad_recomendada
         })
         .then(response => {
           console.log(response);

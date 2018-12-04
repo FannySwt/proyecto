@@ -1,4 +1,4 @@
-2<template>
+<template>
   <v-container fluid grid-list-md>
     <v-data-iterator
       :items="servicios"
@@ -9,18 +9,17 @@
       wrap
     >
       <v-flex slot="item" slot-scope="props" xs4>
-        <servicios
-          v-bind:servicio="props.item"
-          v-on:editar="editarServicio"
-          v-on:eliminar="eliminarServicio"
-        ></servicios>
+        <servicio v-bind:servicio="props.item"></servicio>
       </v-flex>
+      <template slot="no-data">
+        <div class="font-weight title indigo mb-2 ml-5"></div>
+      </template>
     </v-data-iterator>
   </v-container>
 </template>
 
 <script>
-import Servicios from "./../cliente/Servicios";
+import Servicio from "./../publico/Servicios";
 
 export default {
   data: () => ({
@@ -29,21 +28,11 @@ export default {
       rowsPerPage: 9
     }
   }),
-  methods: {
-    editarServicio(servicio) {
-      console.log(servicio);
-      this.$emit("editar", servicio);
-    },
-    eliminarServicio(servicio) {
-      console.log(servicio);
-      this.$emit("eliminar", servicio);
-    }
-  },
   components: {
-    Servicios
+    Servicio
   },
   props: {
-    servicios: []
+    servicios: undefined
   }
 };
 </script>

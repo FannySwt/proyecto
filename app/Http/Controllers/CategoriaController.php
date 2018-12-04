@@ -22,6 +22,13 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+      public function mostrarCategorias()
+    {
+        return $categorias = Categoria::all();
+    }
+
     public function create()
     {
         //

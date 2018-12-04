@@ -21,6 +21,18 @@ class MetodoPagoController extends Controller
         return $pago;
     }
 
+     public function mostrarPagos()
+    {
+        $pagos = MetodoPago::all();
+        
+        $tipos_pagos = []; 
+        
+        foreach ($pagos as $key => $pago) {
+            $tipos_pagos[] = $pago->tipo_pago;
+        }
+        return $tipos_pagos;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

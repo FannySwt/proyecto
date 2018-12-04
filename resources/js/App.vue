@@ -1,11 +1,5 @@
 <template>
-  <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" height="100vh">
-    <router-view 
-      v-on:authenticated="setAuthenticated" 
-      v-on:logout="logout"
-      >
-    </router-view>
-  </v-parallax>
+  <router-view v-on:authenticated="setAuthenticated" v-on:logout="logout"></router-view>
 </template>
 
 <script>

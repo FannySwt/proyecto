@@ -41,10 +41,22 @@ Route::get('/admin/verServicios', function () {
 Route::get('/admin/users', function () {
     return view('app');
 });
+Route::get('/admin/perfil', function () {
+    return view('app');
+});
+Route::get('/admin/categorias', function () {
+    return view('app');
+});
 Route::get('/admin/metodosPagos', function () {
     return view('app');
 });
 Route::get('/admin/serviciosContratados', function () {
+    return view('app');
+});
+Route::get('/admin/filtrar', function () {
+    return view('app');
+});
+Route::get('/admin/filtrarServicios', function () {
     return view('app');
 });
 Route::get('/secretaria', function () {
@@ -71,6 +83,12 @@ Route::get('/secretaria/serviciosDenunciados', function () {
 Route::get('/secretaria/perfil', function () {
     return view('app');
 });
+Route::get('/secretaria/filtrar', function () {
+    return view('app');
+});
+Route::get('/secretaria/filtrarServicios', function () {
+    return view('app');
+});
 Route::get('/cliente', function () {
     return view('app');
 });
@@ -87,6 +105,12 @@ Route::get('/cliente/serviciosContratados', function () {
     return view('app');
 });
 Route::get('/cliente/perfil', function () {
+    return view('app');
+});
+Route::get('/cliente/filtrar', function () {
+    return view('app');
+});
+Route::get('/cliente/filtrarServicios', function () {
     return view('app');
 });
 
@@ -108,6 +132,11 @@ Route::get('/serviciosActivos','ServicioController@serviciosActivos');
 Route::get('/serviciosDenunciados','DenunciaController@serviciosDenunciados');
 Route::get('/comentariosDenuncia/{servicio}','DenunciaController@comentariosDenuncia');
 Route::get('/serviciosCreadosPorUsuario/{usuario}','ServicioController@serviciosCreadosPorUsuario');
+Route::get('/ubicacionServicios','UbicacionController@ubicacionServicios');
+Route::post('/filtrarIngresos','UbicacionController@filtrarIngresos');
+Route::get('/mostrarCategorias','CategoriaController@mostrarCategorias');
+Route::get('/mostrarPagos','MetodoPagoController@mostrarPagos');
+Route::post('/filtrarServicios','ServicioController@filtrarServicios');
 
 Route::post('/hash','UserController@hash');
 

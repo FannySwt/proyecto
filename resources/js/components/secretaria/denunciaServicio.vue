@@ -118,11 +118,11 @@ export default {
   data: () => ({
     rating: 4.3,
     dialog: false,
-    denuncia: []
+    denuncia: [],
+    headers: []
   }),
   props: {
-    servicio: {},
-    denuncia: {}
+    servicio: {}
   },
   computed: {
     idServicio() {

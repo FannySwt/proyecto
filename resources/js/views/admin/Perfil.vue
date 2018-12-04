@@ -28,54 +28,33 @@
         </v-list-tile>
       </v-list>
       <v-divider></v-divider>
-      <v-list three-line subheader>
-        <v-subheader>Servicios publicados</v-subheader>
-        <br>
-        <br>
-        <v-list-tile avatar>
-          <v-list-tile-action>
-            <!-- <v-checkbox v-model="notifications"></v-checkbox>-->
-          </v-list-tile-action>
-          <v-data-table :headers="headers" :items="servicios" hide-actions>
-            <template slot="items" item-key slot-scope="props">
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  <v-layout @click="verServicio">Nombre: {{props.item.nombre_servicio}}</v-layout>
-                </v-list-tile-title>
-                <v-list-tile-sub-title>
-                  <v-layout>Descripción: {{props.item.descripcion_servicio}}</v-layout>
-                </v-list-tile-sub-title>
-                <br>
-              </v-list-tile-content>
-            </template>
-            <template slot="no-data">
-              <v-list-tile-title>Este usuario aún no ha publicado servicios</v-list-tile-title>
-            </template>
-          </v-data-table>
-        </v-list-tile>
-        <v-list-tile avatar>
-          <v-list-tile-action></v-list-tile-action>
-          <v-list-tile-content></v-list-tile-content>
-        </v-list-tile>
-      </v-list>
+      <v-subheader>Servicios publicados</v-subheader>
+      <v-flex mb-5 ml-5>
+        <v-list dense three-line subheader>
+          <v-list-tile avatar v-for="item in servicios" :key="item.id">
+            <v-list-tile-content>
+              <v-list-tile-title>Nombre: {{item.nombre_servicio}}</v-list-tile-title>
+              <v-list-tile-sub-title>Descripción: {{item.descripcion_servicio}}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-flex>
     </v-card>
-    <v-footer dark height="auto">
-      <v-card flat tile class="indigo lighten-1 white--text text-xs-center">
+    <v-footer dark height="auto" color="blue">
+      <v-card flat tile class="indigo lighten-1 white--text text-xs-center" width="100%">
         <v-card-text>
           <!--  <v-btn v-for="icon in icons" :key="icon" class="mx-3 white--text" icon>
           <v-icon size="24px">{{ icon }}</v-icon>
           </v-btn>-->
         </v-card-text>
 
-        <v-card-text
-          class="white--text pt-0"
-        >********************************************************************************* Copyright © 1999-2018 - Venta de Servicios Chile Ltda - Trabaja con nosotros - Términos y condiciones - Políticas de privacidadAyuda. **********************************************************************************</v-card-text>
+        <v-card-text class="white--text pt-0"></v-card-text>
 
         <v-divider></v-divider>
 
         <v-card-text class="white--text">
-          &copy;2018 —
-          <strong>Venta de Servicios</strong>
+          ***************************************************************************************************************************************&copy;2018 —
+          <strong>Venta de Servicios *********************************************************************************************************************************</strong>
         </v-card-text>
       </v-card>
     </v-footer>
@@ -91,10 +70,7 @@ export default {
     usuario: {},
     usuarios: [],
     servicios: [],
-    headers: [
-      { text: "Nombre Servicio", align: "left", value: "nombre_servicio" },
-      { text: "Descripción", value: "descripcion_servicio" }
-    ]
+    headers: []
   }),
   methods: {
     initialize() {

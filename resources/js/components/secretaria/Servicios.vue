@@ -24,7 +24,9 @@
           <br>
           <v-divider></v-divider>
           <v-layout>
-            Disponible: {{servicio.fecha_publicacion_se}} - {{servicio.fecha_finalizacion_se}}
+            <h5
+              class="display-5 font-weight-light mb-2"
+            >Disponible: {{servicio.fecha_publicacion_se}} - {{servicio.fecha_finalizacion_se}}</h5>
             <br>
             <br>
             <v-spacer></v-spacer>

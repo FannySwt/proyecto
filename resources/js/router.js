@@ -19,6 +19,8 @@ import AdminVerServicios from "./views/cliente/VerServicios";
 import AdminContratar from "./components/publico/Contratar.vue";
 import AdminPerfil from "./views/admin/Perfil.vue";
 import AdminServiciosContratados from "./views/cliente/ServiciosContratados.vue";
+import AdminFiltrar from "./components/publico/Filtrar.vue";
+import AdminFiltrarServicios from "./components/publico/FiltrarServicios.vue";
 
 import Secretaria from "./views/secretaria.vue";
 import SecretariaIndex from "./views/secretaria/Index.vue";
@@ -29,6 +31,8 @@ import SecretariaContratar from "./components/publico/Contratar.vue";
 import SecretariaPerfil from "./views/admin/Perfil.vue";
 import SecretariaServiciosContratados from "./views/cliente/ServiciosContratados.vue";
 import SecretariaServiciosDenunciados from "./views/secretaria/Denunciados.vue";
+import SecretariaFiltrar from "./components/publico/Filtrar.vue";
+import SecretariaFiltrarServicios from "./components/publico/FiltrarServicios.vue";
 
 import Cliente from "./views/cliente.vue";
 import ClienteIndex from "./views/cliente/Index.vue";
@@ -38,6 +42,8 @@ import ClienteContratar from "./components/publico/Contratar.vue";
 import ClienteEncuesta from "./components/publico/Encuenta.vue";
 import ClienteServiciosContratados from "./views/cliente/ServiciosContratados.vue";
 import ClientePerfil from "./views/admin/Perfil.vue";
+import ClienteFiltrar from "./components/publico/Filtrar.vue";
+import ClienteFiltrarServicios from "./components/publico/FiltrarServicios.vue";
 
 import ServicioId from "./components/publico/Servicios.vue";
 
@@ -134,6 +140,16 @@ export default new Router({
                     path: "serviciosContratados",
                     name: "adminServiciosContratados",
                     component: AdminServiciosContratados
+                },
+                {
+                    path: "filtrar",
+                    name: "adminFiltrar",
+                    component: AdminFiltrar
+                },
+                {
+                    path: "filtrarServicios",
+                    name: "adminFiltrarServicios",
+                    component: AdminFiltrarServicios
                 }
             ]
         },
@@ -182,6 +198,16 @@ export default new Router({
                     path: "serviciosDenunciados",
                     name: "secretariaServiciosDenunciados",
                     component: SecretariaServiciosDenunciados
+                },
+                {
+                    path: "filtrar",
+                    name: "secretariaFiltrar",
+                    component: SecretariaFiltrar
+                },
+                {
+                    path: "filtrarServicios",
+                    name: "secretariaFiltrarServicios",
+                    component: SecretariaFiltrarServicios
                 }
             ]
         },
@@ -224,6 +250,16 @@ export default new Router({
                     path: "perfil",
                     name: "clientePerfil",
                     component: ClientePerfil
+                },
+                {
+                    path: "filtrar",
+                    name: "clienteFiltrar",
+                    component: ClienteFiltrar
+                },
+                {
+                    path: "filtrarServicios",
+                    name: "clienteFiltrarServicios",
+                    component: ClienteFiltrarServicios
                 }
             ]
         }

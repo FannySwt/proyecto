@@ -1,13 +1,11 @@
 <template>
-    <v-container>
-        <v-layout justify-center align-center>
-            <h1>BIENVENIDO AL PANEL DE Cliente</h1>
-        </v-layout>
-    </v-container>
+  <v-container fill-height fluid>
+    <v-layout justify-center>
+      <span class="display-3 font-weight-light indigo--text mb-2">BIENVENIDO AL PANEL DE CLIENTE</span>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-export default {
-    
-}
+export default {};
 </script>

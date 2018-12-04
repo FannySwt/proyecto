@@ -30,7 +30,7 @@ class DenunciaController extends Controller
     }
 
     public function comentariosDenuncia(Servicio $servicio){
-        return Denuncia::find($servicio);
+        return $servicio->denuncia;
     }
 
     public function serviciosDenunciados(){

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ubicacion;
-use App\Servicio;
+use App\Servicio;   
 use Illuminate\Http\Request;
 
 class UbicacionController extends Controller
@@ -28,6 +28,26 @@ class UbicacionController extends Controller
         //
     }
 
+    public function ubicacionServicios(){
+        $servicios = Servicio::where('estado', '=', 'activo')->orderBy('visitas','desc')->get();
+
+        $ubicaciones = [];
+        
+        foreach ($servicios as $key => $servicio) {
+            $ubicaciones[] = $servicio->ubicacion;
+        }
+
+        return $ubicaciones;
+    }
+
+    public function filtrarIngresos(Request $request){
+        $servicios = Servicio::where([['ubicacion', '=', $request->ubicacion],
+        ['fecha_publicacion_se', '>', $request->fecha_publicacion_se],
+        ['fecha_finalizacion_se', '<=', $request->fecha_finalizacion_se]])->withCount("usuariosContratando")->get();
+        
+        return $servicios;
+     
+    }
     /**
      * Store a newly created resource in storage.
      *

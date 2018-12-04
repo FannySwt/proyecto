@@ -2,114 +2,117 @@
   <div>
     <v-toolbar flat color="white">
       <v-toolbar-title>Usuarios</v-toolbar-title>
-      <v-divider
-        class="mx-2"
-        inset
-        vertical
-      ></v-divider>
+      <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" max-width="500px">
         <v-btn slot="activator" color="primary" dark class="mb-2">Nuevo Usuario</v-btn>
-        
-<v-card>
-      <v-card-title
-        class="grey lighten-4 py-4 title">
-        <span class="headline">Registro de Usuario</span>
-      </v-card-title>
-      <v-container grid-list-sm class="pa-4">
-          <v-layout row wrap>
-            <v-flex xs12 align-center justify-space-between>
-              <v-layout align-center>
-                <v-avatar size="40px" class="mr-3">
-                  <img
-                    src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
-                    alt=""
-                  >
-                </v-avatar>
-                <v-text-field v-model="editedItem.nombre_usuario" label="Nombre"></v-text-field>
-              </v-layout>
-            </v-flex>
-            <v-flex xs6>
-              <v-text-field v-model="editedItem.rut_usuario" label="Rut" prepend-icon="dialpad"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field v-model="editedItem.email" label="Email" prepend-icon="mail"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field v-model="editedItem.password" label="Password" prepend-icon="dialpad"></v-text-field>
-            </v-flex> 
-            <v-flex xs12>
-              <v-text-field v-model="editedItem.telefono" label="Telefono" prepend-icon="phone" mask="phone"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field v-model="editedItem.alias" prepend-icon="create" label="Alias"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-menu
-                    :close-on-content-click="false"
-                    v-model="menu"
-                    :nudge-right="40"
-                    lazy
-                    transition="scale-transition"
-                    offset-y
-                    full-width
-                    min-width="290px"
-                  >
-                    <v-text-field
-                      slot="activator"
-                      v-model="editedItem.fecha_nac"
-                      label="Fecha de nacimiento"
-                      prepend-icon="date_range"
-                      readonly
-                    ></v-text-field>
-                    <v-date-picker v-model="editedItem.fecha_nac"  @input="menu = false"></v-date-picker>
-                  </v-menu>
-                  </v-flex>
-                  <v-flex>
-                    <v-text-field v-model="editedItem.domicilio_usuario" label="Domicilio" prepend-icon="home"></v-text-field>
-                  </v-flex>
-            <v-flex xs12>
-              <v-select
-                :items="tipo_usuario"
-                label="Tipo de Usuario"
-                prepend-icon="person"
-                v-model="tipo_usuario_elegido"
-              ></v-select>
-            </v-flex>
-            <v-flex
-              prepend-icon="note"
-              v-if="tipo_usuario_elegido == 'secretaria'">
-              <v-text-field v-model="editedItem.fecha_contratacion" label="Contratacion"></v-text-field>
-            </v-flex>
-            <v-flex xs12
-            v-if="tipo_usuario_elegido == 'cliente'">
-              <v-text-field v-model="editedItem.reputacion_cliente" label="Reputacion" prepend-icon="exposure"></v-text-field>
-            </v-flex>
-            <v-flex xs12
-            v-if="tipo_usuario_elegido == 'cliente'">
-              <v-text-field v-model="editedItem.estado_cliente" label="Estado" prepend-icon="insert_emoticon"></v-text-field>
-            </v-flex>
-            <v-flex xs12
-            v-if="tipo_usuario_elegido == 'cliente'">
-              <v-text-field v-model="editedItem.tipo_cliente" label="Tipo de Cliente" prepend-icon="show_chart"></v-text-field>
-            </v-flex>
-        </v-layout>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="info"  @click.native="close">Cancelar</v-btn>
-          <v-btn v-if="!editar" color="error" @click.native="save">Registrar</v-btn>
-          <v-btn v-if="editar" color="error" @click.native="save">Editar</v-btn>
-        </v-card-actions>
-      </v-container>
-    </v-card>       
+
+        <v-card>
+          <v-card-title class="grey lighten-4 py-4 title">
+            <span class="headline">Registro de Usuario</span>
+          </v-card-title>
+          <v-container grid-list-sm class="pa-4">
+            <v-layout row wrap>
+              <v-flex xs12 align-center justify-space-between>
+                <v-layout align-center>
+                  <v-avatar size="40px" class="mr-3">
+                    <img src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png" alt>
+                  </v-avatar>
+                  <v-text-field v-model="editedItem.nombre_usuario" label="Nombre"></v-text-field>
+                </v-layout>
+              </v-flex>
+              <v-flex xs6>
+                <v-text-field v-model="editedItem.rut_usuario" label="Rut" prepend-icon="dialpad"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.email" label="Email" prepend-icon="mail"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.password" label="Password" prepend-icon="dialpad"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="editedItem.telefono"
+                  label="Telefono"
+                  prepend-icon="phone"
+                  mask="phone"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="editedItem.alias" prepend-icon="create" label="Alias"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-menu
+                  :close-on-content-click="false"
+                  v-model="menu"
+                  :nudge-right="40"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="editedItem.fecha_nac"
+                    label="Fecha de nacimiento"
+                    prepend-icon="date_range"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker v-model="editedItem.fecha_nac" @input="menu = false"></v-date-picker>
+                </v-menu>
+              </v-flex>
+              <v-flex>
+                <v-text-field
+                  v-model="editedItem.domicilio_usuario"
+                  label="Domicilio"
+                  prepend-icon="home"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-select
+                  :items="tipo_usuario"
+                  label="Tipo de Usuario"
+                  prepend-icon="person"
+                  v-model="tipo_usuario_elegido"
+                ></v-select>
+              </v-flex>
+              <v-flex prepend-icon="note" v-if="tipo_usuario_elegido == 'secretaria'">
+                <v-text-field v-model="editedItem.fecha_contratacion" label="Contratacion"></v-text-field>
+              </v-flex>
+              <v-flex xs12 v-if="tipo_usuario_elegido == 'cliente'">
+                <v-text-field
+                  v-model="editedItem.reputacion_cliente"
+                  label="Reputacion"
+                  prepend-icon="exposure"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 v-if="tipo_usuario_elegido == 'cliente'">
+                <v-text-field
+                  v-model="editedItem.estado_cliente"
+                  label="Estado"
+                  prepend-icon="insert_emoticon"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 v-if="tipo_usuario_elegido == 'cliente'">
+                <v-text-field
+                  v-model="editedItem.tipo_cliente"
+                  label="Tipo de Cliente"
+                  prepend-icon="show_chart"
+                ></v-text-field>
+              </v-flex>
+            </v-layout>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="info" @click.native="close">Cancelar</v-btn>
+              <v-btn v-if="!editar" color="error" @click.native="save">Registrar</v-btn>
+              <v-btn v-if="editar" color="error" @click.native="save">Editar</v-btn>
+            </v-card-actions>
+          </v-container>
+        </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table
-      :headers="headers"
-      :items="usuarios"
-      hide-actions
-      class="elevation-1"
-    >
+    <v-data-table :headers="headers" :items="usuarios" hide-actions class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.rut_usuario }}</td>
         <td class="text-xs-center">{{ props.item.nombre_usuario }}</td>
@@ -118,19 +121,8 @@
         <td class="text-xs-center">{{ props.item.alias }}</td>
         <td class="text-xs-center">{{ props.item.tipo_usuario }}</td>
         <td class="justify-center align-center layout px-0">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(props.item)"
-          >
-            edit
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(props.item)"
-          >
-            delete
-          </v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
+          <v-icon small @click="deleteItem(props.item)">delete</v-icon>
         </td>
       </template>
       <template slot="no-data">

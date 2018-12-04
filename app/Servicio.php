@@ -29,11 +29,6 @@ class Servicio extends Model
     	return $this->hasMany('App\encuesta');
     }
 
-    public function reclamo()
-    {
-        return $this->hasMany('App\reclamo');
-    }
-
     public function Categoria()
     {
     	return $this->belongsTo('App\Categoria');
@@ -54,6 +49,21 @@ class Servicio extends Model
     public function MetodoPago()
     {
     	return $this->belongsToMany('App\MetodoPago');
+    }
+    
+    public function usuariosContratando()
+    {
+        return $this->belongsToMany('App\User')->withPivot(
+            'fecha_contratacion',
+            'fecha_fin_contratacion',
+            'descuento_tipo_cliente',
+            'tipo_pago',
+            'numero_tarjeta',
+            'numero_cuota',
+            'valor_cuota',
+            'me_gusta',
+            'evaluar',
+            'denunciar');
     }
 
 }
