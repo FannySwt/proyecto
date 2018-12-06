@@ -51,16 +51,8 @@
                 <v-date-picker v-model="editedItem.fecha_fin_contratacion" @input="menu2 = false"></v-date-picker>
               </v-menu>
             </v-layout>
-          </v-flex>"
-          <v-flex xs6>
-            <v-input
-              v-model="editedItem.descuento_tipo_cliente"
-              prepend-icon="dialpad"
-            >Descuento Tipo de Cliente"
-              <!--  {{descuento_tipo_cliente}}-->
-            </v-input>
-            <v-divider class="ml-4"></v-divider>
           </v-flex>
+
           <v-flex xs12>
             <v-select
               :items="tipo_pago"
@@ -68,7 +60,7 @@
               item-value="tipo_pago"
               label="Tipo de Pago"
               v-model="tipo_pago_elegido"
-              prepend-icon="mail"
+              prepend-icon="card"
               return-object
               readonly
             ></v-select>

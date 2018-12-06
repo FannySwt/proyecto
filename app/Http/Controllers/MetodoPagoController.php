@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\MetodoPago;
+use App\Servicio;
 use Illuminate\Http\Request;
 
 class MetodoPagoController extends Controller
@@ -98,5 +99,10 @@ class MetodoPagoController extends Controller
     public function destroy(MetodoPago $metodosPago)
     {
         return ['resultado' => $metodosPago->delete()];
+    }
+
+    public function filtrarMetodosPagos(Request $request){
+        return $servicios = Servicio::where([["estado","activo"],
+        ["tipo_pago",$request->pago]])->get();
     }
 }

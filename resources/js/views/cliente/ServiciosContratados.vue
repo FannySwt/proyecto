@@ -1,7 +1,8 @@
 <template>
   <v-data-table :headers="headers" :items="ServiciosContratados" hide-actions class="elevation-1">
     <template slot="items" item-key slot-scope="props">
-      <td>{{ props.item.pivot.fecha_contratacion }}</td>
+      <td>{{ props.item.nombre_servicio }}</td>
+      <td class="text-xs-center">{{ props.item.pivot.fecha_contratacion }}</td>
       <td class="text-xs-center">{{ props.item.pivot.fecha_fin_contratacion }}</td>
       <td class="text-xs-center">{{ props.item.pivot.descuento_tipo_cliente }}</td>
       <td class="text-xs-center">{{ props.item.tipo_pago }}</td>
@@ -106,8 +107,12 @@ export default {
     usuario: {},
     headers: [
       {
-        text: "Fecha inicial del contrato",
+        text: "Servicio",
         align: "center",
+        value: "nombre_servicio"
+      },
+      {
+        text: "Fecha inicial del contrato",
         value: "fecha_contratacion"
       },
       { text: "Fecha final del contrato", value: "fecha_fin_contratacion" },

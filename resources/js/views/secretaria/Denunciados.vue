@@ -2,6 +2,9 @@
   <v-container fluid fill-height>
     <iterar v-on:recargar="cargarServicios"></iterar>
     <v-divider></v-divider>
+    <template slot="no-data">
+      <span>Servicios no encontrados</span>
+    </template>
   </v-container>
 </template>
 

@@ -29,7 +29,7 @@ class UbicacionController extends Controller
     }
 
     public function ubicacionServicios(){
-        $servicios = Servicio::where('estado', '=', 'activo')->orderBy('visitas','desc')->get();
+        $servicios = Servicio::all();
 
         $ubicaciones = [];
         
@@ -38,6 +38,11 @@ class UbicacionController extends Controller
         }
 
         return $ubicaciones;
+    }
+
+     public function filtrarUbicaciones(Request $request){
+        return $servicios = Servicio::where([["estado","activo"],
+        ["ubicacion",$request->ubicacion]])->get();
     }
 
     public function filtrarIngresos(Request $request){

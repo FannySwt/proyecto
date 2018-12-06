@@ -1,6 +1,6 @@
 <template>
   <v-app class="container-fluid">
-    <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" height="100pv">
+    <v-parallax :src="require('./../assets/material.jpg')" height="100pv">
       <v-navigation-drawer :clipped="$vuetify.breakpoint.lgAndUp" v-model="drawer" fixed app>
         <v-list dense>
           <template v-for="item in items">

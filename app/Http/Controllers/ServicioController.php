@@ -53,11 +53,22 @@ class ServicioController extends Controller
             ['categoria_id', $request->categoria],
             ['tipo_pago', $request->pago],
             ['precio_servicio', '>=', $request->precioMinimo],
-            ['precio_servicio', '<=', $request->precioMaximo]
+            ['precio_servicio', '<=', $request->precioMaximo],
+            ['estado', 'activo']
         ])->get();
         
         return $servicios;
      
+    }
+
+    public function filtrarMinimo(Request $request){
+        return $servicios = Servicio::where([["estado","activo"],
+        ["precio_servicio", ">=", $request->minimo]])->orderBy('precio_servicio','asc')->get();
+    }
+
+    public function filtrarMaximo(Request $request){
+        return $servicios = Servicio::where([["estado","activo"],
+        ["precio_servicio", "<=", $request->maximo]])->orderBy('precio_servicio','desc')->get();
     }
 
     public function serviciosUsuario()

@@ -13,105 +13,119 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('app');
+Route::group(['prefix' => '/', 'middleware'=>['home']], function () {
+    Route::get('', function () {
+        return view('app');
+    });
+
+    Route::get('home', function () {
+        return view('app');
+    });
+    Route::get('home/users', function () {
+        return view('app');
+    });
+    Route::get('home/servicios', function () {
+        return view('app');
+    });
 });
 
-Route::get('/home', function () {
-    return view('app');
+    Route::get('login', function () {
+        return view('app');
+    });
+
+
+Route::group(['prefix' => 'admin', 'middleware'=>['usuarioAdmin']], function () {
+
+    Route::get('/', function () {
+        return view('app');
+    });
+    Route::get('/servicios', function () {
+        return view('app');
+    });
+    Route::get('/verServicios', function () {
+        return view('app');
+    });
+    Route::get('/users', function () {
+        return view('app');
+    });
+    Route::get('/perfil', function () {
+        return view('app');
+    });
+    Route::get('/categorias', function () {
+        return view('app');
+    });
+    Route::get('/metodosPagos', function () {
+        return view('app');
+    });
+    Route::get('/serviciosContratados', function () {
+        return view('app');
+    });
+    Route::get('/filtrar', function () {
+        return view('app');
+    });
+    Route::get('/filtrarServicios', function () {
+        return view('app');
+    });
 });
-Route::get('/home/users', function () {
-    return view('app');
+    
+Route::group(['prefix' => 'secretaria', 'middleware'=>['usuarioSecretaria']], function () {
+    Route::get('/', function () {
+        return view('app');
+    });
+    Route::get('/validar', function () {
+        return view('app');
+    });
+    Route::get('/servicios', function () {
+        return view('app');
+    });
+    Route::get('/contratar', function () {
+        return view('app');
+    });
+    Route::get('/users', function () {
+        return view('app');
+    });
+    Route::get('/serviciosContratados', function () {
+        return view('app');
+    });
+    Route::get('/serviciosDenunciados', function () {
+        return view('app');
+    });
+    Route::get('/perfil', function () {
+        return view('app');
+    });
+    Route::get('/filtrar', function () {
+        return view('app');
+    });
+    Route::get('/filtrarServicios', function () {
+        return view('app');
+    });
 });
-Route::get('/home/servicios', function () {
-    return view('app');
-});
-Route::get('/login', function () {
-    return view('app');
-});
-Route::get('/admin', function () {
-    return view('app');
-});
-Route::get('/admin/servicios', function () {
-    return view('app');
-});
-Route::get('/admin/verServicios', function () {
-    return view('app');
-});
-Route::get('/admin/users', function () {
-    return view('app');
-});
-Route::get('/admin/perfil', function () {
-    return view('app');
-});
-Route::get('/admin/categorias', function () {
-    return view('app');
-});
-Route::get('/admin/metodosPagos', function () {
-    return view('app');
-});
-Route::get('/admin/serviciosContratados', function () {
-    return view('app');
-});
-Route::get('/admin/filtrar', function () {
-    return view('app');
-});
-Route::get('/admin/filtrarServicios', function () {
-    return view('app');
-});
-Route::get('/secretaria', function () {
-    return view('app');
-});
-Route::get('/secretaria/validar', function () {
-    return view('app');
-});
-Route::get('/secretaria/servicios', function () {
-    return view('app');
-});
-Route::get('/secretaria/contratar', function () {
-    return view('app');
-});
-Route::get('/secretaria/users', function () {
-    return view('app');
-});
-Route::get('/secretaria/serviciosContratados', function () {
-    return view('app');
-});
-Route::get('/secretaria/serviciosDenunciados', function () {
-    return view('app');
-});
-Route::get('/secretaria/perfil', function () {
-    return view('app');
-});
-Route::get('/secretaria/filtrar', function () {
-    return view('app');
-});
-Route::get('/secretaria/filtrarServicios', function () {
-    return view('app');
-});
-Route::get('/cliente', function () {
-    return view('app');
-});
-Route::get('/cliente/servicios', function () {
-    return view('app');
-});
-Route::get('/cliente/verServicios', function () {
-    return view('app');
-});
-Route::get('/cliente/contratar/{servicio}', function () {
-    return view('app');
-});
-Route::get('/cliente/serviciosContratados', function () {
-    return view('app');
-});
-Route::get('/cliente/perfil', function () {
-    return view('app');
-});
-Route::get('/cliente/filtrar', function () {
-    return view('app');
-});
-Route::get('/cliente/filtrarServicios', function () {
-    return view('app');
+
+Route::group(['prefix' => 'cliente', 'middleware'=>['usuarioCliente']], function () {
+    Route::get('/', function () {
+        return view('app');
+    });
+    Route::get('/servicios', function () {
+        return view('app');
+    });
+    Route::get('/verServicios', function () {
+        return view('app');
+    });
+    Route::get('/contratar/{servicio}', function () {
+        return view('app');
+    });
+    Route::get('/serviciosContratados', function () {
+        return view('app');
+    });
+    Route::get('/perfil', function () {
+        return view('app');
+    });
+    Route::get('/filtrar', function () {
+        return view('app');
+    });
+    Route::get('/filtrarServicios', function () {
+        return view('app');
+    });
 });
 
 
@@ -138,6 +152,12 @@ Route::get('/mostrarCategorias','CategoriaController@mostrarCategorias');
 Route::get('/mostrarPagos','MetodoPagoController@mostrarPagos');
 Route::post('/filtrarServicios','ServicioController@filtrarServicios');
 
+Route::post('/filtrarCategorias','CategoriaController@filtrarCategorias');
+Route::post('/filtrarUbicaciones','UbicacionController@filtrarUbicaciones');
+Route::post('/filtrarMetodosPagos','MetodoPagoController@filtrarMetodosPagos');
+Route::post('/filtrarMinimo','ServicioController@filtrarMinimo');
+Route::post('/filtrarMaximo','ServicioController@filtrarMaximo');
+
 Route::post('/hash','UserController@hash');
 
 Route::post('/login','UserController@login');
@@ -153,3 +173,7 @@ Route::post('/auth',function () {
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+ Route::get('error', function(){
+  	abort(404);
+  });

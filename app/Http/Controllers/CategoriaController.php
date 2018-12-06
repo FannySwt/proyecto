@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Categoria;
+use App\Servicio;
 use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
@@ -17,6 +18,10 @@ class CategoriaController extends Controller
         return Categoria::all();
     }
 
+    public function filtrarCategorias(Request $request){
+        return $servicios = Servicio::where([["estado","activo"],
+        ['categoria_id', $request->categoria],])->get();
+    }
     /**
      * Show the form for creating a new resource.
      *
